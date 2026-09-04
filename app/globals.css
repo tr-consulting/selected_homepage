@@ -31,8 +31,9 @@ footer{background:#102d1b}.mobile-nav{background:#fff!important;color:var(--ink)
 @media(max-width:950px){.about-lead{grid-template-columns:1fr}.office-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.about-offices{padding:75px 22px}.office-grid{grid-template-columns:1fr}.office-grid article{min-height:190px}}
 .signal-core-logo {
-  width: 82px;
-  height: 82px;
+  width: 42px;
+  height: 42px;
   object-fit: contain;
   display: block;
+  margin-bottom: 6px;
 }
