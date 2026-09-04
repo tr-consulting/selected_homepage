@@ -1,45 +1,921 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, Check, ChevronDown, CircleCheck, Headphones, Menu, MessageCircle, Send, ShieldCheck, Sparkles, X } from 'lucide-react';
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  CircleCheck,
+  Headphones,
+  Menu,
+  MessageCircle,
+  Send,
+  ShieldCheck,
+  Sparkles,
+  X,
+} from 'lucide-react';
 
 type Lang = 'sv' | 'en' | 'no' | 'da' | 'fi' | 'is';
-type Copy = { nav: string[]; contact: string; eyebrow: string; titleA: string; titleB: string; lead: string; explore: string; experts: string; trust: string[]; markets: string; solutionTitle: string; solutionLead: string; expertiseTitle: string; expertiseLead: string; supportTitle: string; supportLead: string; talk: string; footer: string };
-const copy: Record<Lang, Copy> = {
-  sv:{nav:['Produkter','Expertis','Support','Om oss'],contact:'Kontakta oss',eyebrow:'Nordisk spetskompetens inom dokumentflöden',titleA:'Tekniken är bara början.',titleB:'Människorna gör skillnaden.',lead:'Marknadsledande lösningar. Nordens vassaste konsulter. Ett team som stannar tills allt fungerar — idag och imorgon.',explore:'Utforska våra lösningar',experts:'Möt våra experter',trust:['Lokal närvaro i Norden','Certifierade specialister','Support nära dig'],markets:'Operativt i hela Norden',solutionTitle:'Plattformar vi tror på. Resultat ni kan räkna med.',solutionLead:'Vi väljer noggrant ut teknik som löser verkliga problem — och ger den kraft genom lokal expertis.',expertiseTitle:'Vi utbildar. Vi konsulterar. Vi installerar.',expertiseLead:'Våra certifierade specialister kombinerar djup produktkunskap med förståelse för er verksamhet — från första analys och utbildning till rikstäckande installation och förvaltning.',supportTitle:'Ett team som svarar. På riktigt.',supportLead:'Få hjälp av människor som känner produkterna, marknaden och er miljö.',talk:'Starta en dialog',footer:'Nordisk distributör av dokument- och utskriftshanteringslösningar.'},
-  en:{nav:['Products','Expertise','Support','About us'],contact:'Contact us',eyebrow:'Nordic expertise in document workflows',titleA:'Technology is only the beginning.',titleB:'People make the difference.',lead:'Market-leading solutions. The Nordics’ sharpest consultants. A team that stays until everything works — today and tomorrow.',explore:'Explore our solutions',experts:'Meet our experts',trust:['Local presence across the Nordics','Certified specialists','Support close to you'],markets:'Operating across the Nordics',solutionTitle:'Platforms we believe in. Results you can rely on.',solutionLead:'We select technology that solves real problems — and amplify it with local expertise.',expertiseTitle:'We train. We consult. We install.',expertiseLead:'Our certified specialists combine deep product knowledge with an understanding of your business — from first analysis and training to nationwide installation and long-term management.',supportTitle:'A team that answers. For real.',supportLead:'Get help from people who know the products, the market and your environment.',talk:'Start a conversation',footer:'Nordic distributor of document and print management solutions.'},
-  no:{nav:['Produkter','Ekspertise','Support','Om oss'],contact:'Kontakt oss',eyebrow:'Nordisk spisskompetanse innen dokumentflyt',titleA:'Teknologien er bare starten.',titleB:'Menneskene gjør forskjellen.',lead:'Markedsledende løsninger. Nordens skarpeste konsulenter. Et team som blir til alt fungerer — i dag og i morgen.',explore:'Utforsk løsningene våre',experts:'Møt ekspertene våre',trust:['Lokal tilstedeværelse i Norden','Sertifiserte spesialister','Support nær deg'],markets:'Operativ i hele Norden',solutionTitle:'Plattformer vi tror på. Resultater dere kan regne med.',solutionLead:'Vi velger teknologi som løser reelle problemer — og gir den kraft gjennom lokal ekspertise.',expertiseTitle:'Kompleks teknologi. Enkelt samarbeid.',expertiseLead:'Konsulentene våre kombinerer dyp produktkunnskap med forståelse for virksomheten deres.',supportTitle:'Et team som svarer. På ordentlig.',supportLead:'Få hjelp av mennesker som kjenner produktene, markedet og miljøet deres.',talk:'Start en dialog',footer:'Nordisk distributør av dokument- og utskriftsløsninger.'},
-  da:{nav:['Produkter','Ekspertise','Support','Om os'],contact:'Kontakt os',eyebrow:'Nordisk ekspertise i dokumentflows',titleA:'Teknologien er kun begyndelsen.',titleB:'Mennesker gør forskellen.',lead:'Markedsledende løsninger. Nordens skarpeste konsulenter. Et team der bliver, til alt fungerer — i dag og i morgen.',explore:'Udforsk vores løsninger',experts:'Mød vores eksperter',trust:['Lokal tilstedeværelse i Norden','Certificerede specialister','Support tæt på dig'],markets:'Operativ i hele Norden',solutionTitle:'Platforme vi tror på. Resultater I kan regne med.',solutionLead:'Vi vælger teknologi, der løser virkelige problemer — og giver den kraft gennem lokal ekspertise.',expertiseTitle:'Kompleks teknologi. Enkelt samarbejde.',expertiseLead:'Vores konsulenter kombinerer dyb produktviden med forståelse for jeres forretning.',supportTitle:'Et team der svarer. Rigtigt.',supportLead:'Få hjælp af mennesker, der kender produkterne, markedet og jeres miljø.',talk:'Start en dialog',footer:'Nordisk distributør af dokument- og printløsninger.'},
-  fi:{nav:['Tuotteet','Asiantuntijat','Tuki','Meistä'],contact:'Ota yhteyttä',eyebrow:'Pohjoismaista asiantuntemusta asiakirjatyönkulkuihin',titleA:'Teknologia on vasta alku.',titleB:'Ihmiset tekevät eron.',lead:'Markkinoiden johtavat ratkaisut. Pohjoismaiden parhaat konsultit. Tiimi, joka pysyy rinnallasi kunnes kaikki toimii.',explore:'Tutustu ratkaisuihin',experts:'Tapaa asiantuntijamme',trust:['Paikallinen läsnäolo Pohjoismaissa','Sertifioidut asiantuntijat','Tuki lähelläsi'],markets:'Toimimme kaikkialla Pohjoismaissa',solutionTitle:'Alustat, joihin luotamme. Tulokset, joihin voitte luottaa.',solutionLead:'Valitsemme teknologiaa, joka ratkaisee todellisia ongelmia — paikallisen asiantuntemuksen voimin.',expertiseTitle:'Monimutkainen teknologia. Mutkaton yhteistyö.',expertiseLead:'Konsulttimme yhdistävät syvän tuotetuntemuksen liiketoimintanne ymmärtämiseen.',supportTitle:'Tiimi, joka vastaa. Oikeasti.',supportLead:'Saat apua ihmisiltä, jotka tuntevat tuotteet, markkinat ja ympäristönne.',talk:'Aloita keskustelu',footer:'Pohjoismainen asiakirja- ja tulostusratkaisujen jakelija.'},
-  is:{nav:['Vörur','Sérfræði','Aðstoð','Um okkur'],contact:'Hafðu samband',eyebrow:'Norræn sérþekking á skjalaflæði',titleA:'Tæknin er aðeins byrjunin.',titleB:'Fólkið skiptir sköpum.',lead:'Markaðsleiðandi lausnir. Fremstu ráðgjafar Norðurlanda. Teymi sem er með þér þar til allt virkar.',explore:'Skoðaðu lausnirnar',experts:'Hittu sérfræðingana',trust:['Staðbundin nærvera á Norðurlöndum','Vottaðir sérfræðingar','Aðstoð nálægt þér'],markets:'Starfsemi á öllum Norðurlöndum',solutionTitle:'Kerfi sem við trúum á. Árangur sem þið getið treyst.',solutionLead:'Við veljum tækni sem leysir raunveruleg vandamál — studda af staðbundinni sérþekkingu.',expertiseTitle:'Flókin tækni. Einfalt samstarf.',expertiseLead:'Ráðgjafar okkar sameina djúpa vöruþekkingu og skilning á rekstri ykkar.',supportTitle:'Teymi sem svarar. Í alvöru.',supportLead:'Fáðu hjálp frá fólki sem þekkir vörurnar, markaðinn og umhverfið ykkar.',talk:'Hefja samtal',footer:'Norrænn dreifingaraðili skjala- og prentlausna.'}
+
+type Copy = {
+  nav: string[];
+  contact: string;
+  eyebrow: string;
+  titleA: string;
+  titleB: string;
+  lead: string;
+  explore: string;
+  experts: string;
+  trust: string[];
+  markets: string;
+  solutionTitle: string;
+  solutionLead: string;
+  expertiseTitle: string;
+  expertiseLead: string;
+  supportTitle: string;
+  supportLead: string;
+  talk: string;
+  footer: string;
 };
 
-const products=[
-  {name:'PaperCut',tag:'PRINT',title:'Print management som bara fungerar',enTitle:'Print management that simply works',copy:'Säker utskrift, lägre kostnader och full kontroll över hela skrivarflottan.',enCopy:'Secure printing, lower costs and complete control over your print fleet.',color:'#84b82c',logo:'/brands/papercut.png',url:'https://selectecnordic.com/product/papercut/'},
-  {name:'ELATEC',tag:'IDENTITY',title:'En läsare. Alla identiteter.',enTitle:'One reader. Every identity.',copy:'RFID-läsare som förenklar säker inloggning i hela er tekniska miljö.',enCopy:'RFID readers that simplify secure sign-in across your technical environment.',color:'#84b82c',logo:'/brands/elatec.svg',url:'https://selectecnordic.com/product/elatec/'},
-  {name:'Drivve | Image',tag:'CAPTURE',title:'Från papper till rätt flöde',enTitle:'From paper to the right workflow',copy:'Intelligent dokumentinsamling som skickar informationen dit den ska.',enCopy:'Intelligent document capture that sends information where it belongs.',color:'#84b82c',logo:null,url:'https://selectecnordic.com/product/drivve-image/'},
-  {name:'IPA Suite',tag:'CAPTURE',title:'Automatisera det manuella',enTitle:'Automate the manual work',copy:'Fånga, tolka och distribuera information utan onödiga mellansteg.',enCopy:'Capture, interpret and distribute information without unnecessary steps.',color:'#84b82c',logo:'/brands/ipa-suite.png',url:'https://selectecnordic.com/product/ipa-suite/'},
-  {name:'Foldr',tag:'DOCUMENTS',title:'Alla filer. En säker ingång.',enTitle:'Every file. One secure access point.',copy:'Smidig åtkomst till organisationens filer, oavsett plats och enhet.',enCopy:'Easy access to your organisation’s files, regardless of location or device.',color:'#84b82c',logo:'/brands/foldr.png',url:'https://selectecnordic.com/product/foldr/'},
-  {name:'Square 9',tag:'DOCUMENTS',title:'Dokument som driver arbetet framåt',enTitle:'Documents that move work forward',copy:'Dokumenthantering och smarta arbetsflöden som gör information sökbar och användbar.',enCopy:'Document management and smart workflows that make information searchable and useful.',color:'#84b82c',logo:'/brands/square9.png',url:'https://selectecnordic.com/product/square-9/'},
-  {name:'Netaphor SiteAudit',tag:'MPS TOOLS',title:'Beslut byggda på fakta',enTitle:'Decisions built on facts',copy:'Analys av skrivarflottan som synliggör kostnad, hälsa och potential.',enCopy:'Fleet analytics that reveal cost, health and opportunities for improvement.',color:'#84b82c',logo:'/brands/netaphor.jpg',url:'https://selectecnordic.com/product/netaphor-siteaudit/'},
-  {name:'Blippa',tag:'CONNECTED PRODUCTS',title:'Gör varje produkt digital och spårbar',enTitle:'Make every product digital and traceable',copy:'Digitala produktpass och smarta QR-upplevelser som kopplar ihop fysiska produkter med rätt information.',enCopy:'Digital product passports and smart QR experiences that connect physical products with the right information.',color:'#84b82c',logo:'/brands/blippa.png',url:'https://blippa.com/sv/produkt/'}
+const copy: Record<Lang, Copy> = {
+  sv: {
+    nav: ['Produkter', 'Expertis', 'Support', 'Om oss'],
+    contact: 'Kontakta oss',
+    eyebrow: 'Nordisk spetskompetens inom dokumentflöden',
+    titleA: 'Tekniken är bara början.',
+    titleB: 'Människorna gör skillnaden.',
+    lead: 'Marknadsledande lösningar. Nordens vassaste konsulter. Ett team som stannar tills allt fungerar — idag och imorgon.',
+    explore: 'Utforska våra lösningar',
+    experts: 'Möt våra experter',
+    trust: ['Lokal närvaro i Norden', 'Certifierade specialister', 'Support nära dig'],
+    markets: 'Operativt i hela Norden',
+    solutionTitle: 'Plattformar vi tror på. Resultat ni kan räkna med.',
+    solutionLead: 'Vi väljer noggrant ut teknik som löser verkliga problem — och ger den kraft genom lokal expertis.',
+    expertiseTitle: 'Vi utbildar. Vi konsulterar. Vi installerar.',
+    expertiseLead: 'Våra certifierade specialister kombinerar djup produktkunskap med förståelse för er verksamhet — från första analys och utbildning till rikstäckande installation och förvaltning.',
+    supportTitle: 'Ett team som svarar. På riktigt.',
+    supportLead: 'Få hjälp av människor som känner produkterna, marknaden och er miljö.',
+    talk: 'Starta en dialog',
+    footer: 'Nordisk distributör av dokument- och utskriftshanteringslösningar.',
+  },
+
+  en: {
+    nav: ['Products', 'Expertise', 'Support', 'About us'],
+    contact: 'Contact us',
+    eyebrow: 'Nordic expertise in document workflows',
+    titleA: 'Technology is only the beginning.',
+    titleB: 'People make the difference.',
+    lead: 'Market-leading solutions. The Nordics’ sharpest consultants. A team that stays until everything works — today and tomorrow.',
+    explore: 'Explore our solutions',
+    experts: 'Meet our experts',
+    trust: ['Local presence across the Nordics', 'Certified specialists', 'Support close to you'],
+    markets: 'Operating across the Nordics',
+    solutionTitle: 'Platforms we believe in. Results you can rely on.',
+    solutionLead: 'We select technology that solves real problems — and amplify it with local expertise.',
+    expertiseTitle: 'We train. We consult. We install.',
+    expertiseLead: 'Our certified specialists combine deep product knowledge with an understanding of your business — from first analysis and training to nationwide installation and long-term management.',
+    supportTitle: 'A team that answers. For real.',
+    supportLead: 'Get help from people who know the products, the market and your environment.',
+    talk: 'Start a conversation',
+    footer: 'Nordic distributor of document and print management solutions.',
+  },
+
+  no: {
+    nav: ['Produkter', 'Ekspertise', 'Support', 'Om oss'],
+    contact: 'Kontakt oss',
+    eyebrow: 'Nordisk spisskompetanse innen dokumentflyt',
+    titleA: 'Teknologien er bare starten.',
+    titleB: 'Menneskene gjør forskjellen.',
+    lead: 'Markedsledende løsninger. Nordens skarpeste konsulenter. Et team som blir til alt fungerer — i dag og i morgen.',
+    explore: 'Utforsk løsningene våre',
+    experts: 'Møt ekspertene våre',
+    trust: ['Lokal tilstedeværelse i Norden', 'Sertifiserte spesialister', 'Support nær deg'],
+    markets: 'Operativ i hele Norden',
+    solutionTitle: 'Plattformer vi tror på. Resultater dere kan regne med.',
+    solutionLead: 'Vi velger teknologi som løser reelle problemer — og gir den kraft gjennom lokal ekspertise.',
+    expertiseTitle: 'Kompleks teknologi. Enkelt samarbeid.',
+    expertiseLead: 'Konsulentene våre kombinerer dyp produktkunnskap med forståelse for virksomheten deres.',
+    supportTitle: 'Et team som svarer. På ordentlig.',
+    supportLead: 'Få hjelp av mennesker som kjenner produktene, markedet og miljøet deres.',
+    talk: 'Start en dialog',
+    footer: 'Nordisk distributør av dokument- og utskriftsløsninger.',
+  },
+
+  da: {
+    nav: ['Produkter', 'Ekspertise', 'Support', 'Om os'],
+    contact: 'Kontakt os',
+    eyebrow: 'Nordisk ekspertise i dokumentflows',
+    titleA: 'Teknologien er kun begyndelsen.',
+    titleB: 'Mennesker gør forskellen.',
+    lead: 'Markedsledende løsninger. Nordens skarpeste konsulenter. Et team der bliver, til alt fungerer — i dag og i morgen.',
+    explore: 'Udforsk vores løsninger',
+    experts: 'Mød vores eksperter',
+    trust: ['Lokal tilstedeværelse i Norden', 'Certificerede specialister', 'Support tæt på dig'],
+    markets: 'Operativ i hele Norden',
+    solutionTitle: 'Platforme vi tror på. Resultater I kan regne med.',
+    solutionLead: 'Vi vælger teknologi, der løser virkelige problemer — og giver den kraft gennem lokal ekspertise.',
+    expertiseTitle: 'Kompleks teknologi. Enkelt samarbejde.',
+    expertiseLead: 'Vores konsulenter kombinerer dyb produktviden med forståelse for jeres forretning.',
+    supportTitle: 'Et team der svarer. Rigtigt.',
+    supportLead: 'Få hjælp af mennesker, der kender produkterne, markedet og jeres miljø.',
+    talk: 'Start en dialog',
+    footer: 'Nordisk distributør af dokument- og printløsninger.',
+  },
+
+  fi: {
+    nav: ['Tuotteet', 'Asiantuntijat', 'Tuki', 'Meistä'],
+    contact: 'Ota yhteyttä',
+    eyebrow: 'Pohjoismaista asiantuntemusta asiakirjatyönkulkuihin',
+    titleA: 'Teknologia on vasta alku.',
+    titleB: 'Ihmiset tekevät eron.',
+    lead: 'Markkinoiden johtavat ratkaisut. Pohjoismaiden parhaat konsultit. Tiimi, joka pysyy rinnallasi kunnes kaikki toimii.',
+    explore: 'Tutustu ratkaisuihin',
+    experts: 'Tapaa asiantuntijamme',
+    trust: ['Paikallinen läsnäolo Pohjoismaissa', 'Sertifioidut asiantuntijat', 'Tuki lähelläsi'],
+    markets: 'Toimimme kaikkialla Pohjoismaissa',
+    solutionTitle: 'Alustat, joihin luotamme. Tulokset, joihin voitte luottaa.',
+    solutionLead: 'Valitsemme teknologiaa, joka ratkaisee todellisia ongelmia — paikallisen asiantuntemuksen voimin.',
+    expertiseTitle: 'Monimutkainen teknologia. Mutkaton yhteistyö.',
+    expertiseLead: 'Konsulttimme yhdistävät syvän tuotetuntemuksen liiketoimintanne ymmärtämiseen.',
+    supportTitle: 'Tiimi, joka vastaa. Oikeasti.',
+    supportLead: 'Saat apua ihmisiltä, jotka tuntevat tuotteet, markkinat ja ympäristönne.',
+    talk: 'Aloita keskustelu',
+    footer: 'Pohjoismainen asiakirja- ja tulostusratkaisujen jakelija.',
+  },
+
+  is: {
+    nav: ['Vörur', 'Sérfræði', 'Aðstoð', 'Um okkur'],
+    contact: 'Hafðu samband',
+    eyebrow: 'Norræn sérþekking á skjalaflæði',
+    titleA: 'Tæknin er aðeins byrjunin.',
+    titleB: 'Fólkið skiptir sköpum.',
+    lead: 'Markaðsleiðandi lausnir. Fremstu ráðgjafar Norðurlanda. Teymi sem er með þér þar til allt virkar.',
+    explore: 'Skoðaðu lausnirnar',
+    experts: 'Hittu sérfræðingana',
+    trust: ['Staðbundin nærvera á Norðurlöndum', 'Vottaðir sérfræðingar', 'Aðstoð nálægt þér'],
+    markets: 'Starfsemi á öllum Norðurlöndum',
+    solutionTitle: 'Kerfi sem við trúum á. Árangur sem þið getið treyst.',
+    solutionLead: 'Við veljum tækni sem leysir raunveruleg vandamál — studda af staðbundinni sérþekkingu.',
+    expertiseTitle: 'Flókin tækni. Einfalt samstarf.',
+    expertiseLead: 'Ráðgjafar okkar sameina djúpa vöruþekkingu og skilning á rekstri ykkar.',
+    supportTitle: 'Teymi sem svarar. Í alvöru.',
+    supportLead: 'Fáðu hjálp frá fólki sem þekkir vörurnar, markaðinn og umhverfið ykkar.',
+    talk: 'Hefja samtal',
+    footer: 'Norrænn dreifingaraðili skjala- og prentlausna.',
+  },
+};
+
+const products = [
+  {
+    name: 'PaperCut',
+    tag: 'PRINT',
+    title: 'Print management som bara fungerar',
+    enTitle: 'Print management that simply works',
+    copy: 'Säker utskrift, lägre kostnader och full kontroll över hela skrivarflottan.',
+    enCopy: 'Secure printing, lower costs and complete control over your print fleet.',
+    color: '#84b82c',
+    logo: '/brands/papercut.png',
+    url: 'https://selectecnordic.com/product/papercut/',
+  },
+  {
+    name: 'ELATEC',
+    tag: 'IDENTITY',
+    title: 'En läsare. Alla identiteter.',
+    enTitle: 'One reader. Every identity.',
+    copy: 'RFID-läsare som förenklar säker inloggning i hela er tekniska miljö.',
+    enCopy: 'RFID readers that simplify secure sign-in across your technical environment.',
+    color: '#84b82c',
+    logo: '/brands/elatec.svg',
+    url: 'https://selectecnordic.com/product/elatec/',
+  },
+  {
+    name: 'Drivve | Image',
+    tag: 'CAPTURE',
+    title: 'Från papper till rätt flöde',
+    enTitle: 'From paper to the right workflow',
+    copy: 'Intelligent dokumentinsamling som skickar informationen dit den ska.',
+    enCopy: 'Intelligent document capture that sends information where it belongs.',
+    color: '#84b82c',
+    logo: null,
+    url: 'https://selectecnordic.com/product/drivve-image/',
+  },
+  {
+    name: 'IPA Suite',
+    tag: 'CAPTURE',
+    title: 'Automatisera det manuella',
+    enTitle: 'Automate the manual work',
+    copy: 'Fånga, tolka och distribuera information utan onödiga mellansteg.',
+    enCopy: 'Capture, interpret and distribute information without unnecessary steps.',
+    color: '#84b82c',
+    logo: '/brands/ipa-suite.png',
+    url: 'https://selectecnordic.com/product/ipa-suite/',
+  },
+  {
+    name: 'Foldr',
+    tag: 'DOCUMENTS',
+    title: 'Alla filer. En säker ingång.',
+    enTitle: 'Every file. One secure access point.',
+    copy: 'Smidig åtkomst till organisationens filer, oavsett plats och enhet.',
+    enCopy: 'Easy access to your organisation’s files, regardless of location or device.',
+    color: '#84b82c',
+    logo: '/brands/foldr.png',
+    url: 'https://selectecnordic.com/product/foldr/',
+  },
+  {
+    name: 'Square 9',
+    tag: 'DOCUMENTS',
+    title: 'Dokument som driver arbetet framåt',
+    enTitle: 'Documents that move work forward',
+    copy: 'Dokumenthantering och smarta arbetsflöden som gör information sökbar och användbar.',
+    enCopy: 'Document management and smart workflows that make information searchable and useful.',
+    color: '#84b82c',
+    logo: '/brands/square9.png',
+    url: 'https://selectecnordic.com/product/square-9/',
+  },
+  {
+    name: 'Netaphor SiteAudit',
+    tag: 'MPS TOOLS',
+    title: 'Beslut byggda på fakta',
+    enTitle: 'Decisions built on facts',
+    copy: 'Analys av skrivarflottan som synliggör kostnad, hälsa och potential.',
+    enCopy: 'Fleet analytics that reveal cost, health and opportunities for improvement.',
+    color: '#84b82c',
+    logo: '/brands/netaphor.jpg',
+    url: 'https://selectecnordic.com/product/netaphor-siteaudit/',
+  },
+  {
+    name: 'Blippa',
+    tag: 'CONNECTED PRODUCTS',
+    title: 'Gör varje produkt digital och spårbar',
+    enTitle: 'Make every product digital and traceable',
+    copy: 'Digitala produktpass och smarta QR-upplevelser som kopplar ihop fysiska produkter med rätt information.',
+    enCopy: 'Digital product passports and smart QR experiences that connect physical products with the right information.',
+    color: '#84b82c',
+    logo: '/brands/blippa.png',
+    url: 'https://blippa.com/sv/produkt/',
+  },
 ];
 
-export default function Home(){
-  const [lang,setLang]=useState<Lang>('sv'); const [langOpen,setLangOpen]=useState(false); const [chat,setChat]=useState(false); const [mode,setMode]=useState<'start'|'product'|'ticket'>('start'); const [step,setStep]=useState(0); const [message,setMessage]=useState(''); const [sent,setSent]=useState(false); const [mobile,setMobile]=useState(false); const t=copy[lang]; const en=lang==='en';
-  const recommendation=useMemo(()=>step===1?'PaperCut':step===2?'Drivve | Image':'ELATEC',[step]);
-  useEffect(()=>{ const context=(document as Document & {modelContext?:{registerTool:(tool:unknown,options?:{signal:AbortSignal})=>void}}).modelContext; if(!context?.registerTool)return; const ac=new AbortController(); context.registerTool({name:'start_selectec_support',title:'Start Selectec support',description:'Opens the Selectec support assistant for product guidance or a support request.',inputSchema:{type:'object',properties:{mode:{type:'string',enum:['product','ticket']}},required:['mode'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:(input:{mode:'product'|'ticket'})=>{setChat(true);setMode(input.mode);return{status:'opened',mode:input.mode}}},{signal:ac.signal}); return()=>ac.abort();},[]);
-  return <main>
-    <header className="site-header"><a className="brand" href="#top"><img src="/selectec-nordic-logo.png" alt="Selectec Nordic"/></a><nav aria-label="Huvudmeny"><a href="#produkter">{t.nav[0]}</a><a href="#expertis">{t.nav[1]}</a><a href="#support">{t.nav[2]}</a><a href="#om">{t.nav[3]}</a></nav><div className="header-actions"><div className="lang-wrap"><button className="language" onClick={()=>setLangOpen(!langOpen)}>{lang.toUpperCase()} <ChevronDown size={14}/></button>{langOpen&&<div className="lang-menu">{(['sv','en','no','da','fi','is'] as Lang[]).map(l=><button key={l} onClick={()=>{setLang(l);setLangOpen(false)}}>{l.toUpperCase()} <span>{({sv:'Svenska',en:'English',no:'Norsk',da:'Dansk',fi:'Suomi',is:'Íslenska'} as Record<Lang,string>)[l]}</span></button>)}</div>}</div><a className="contact-button" href="#kontakt">{t.contact} <ArrowRight size={16}/></a><button className="mobile-menu" onClick={()=>setMobile(!mobile)}><Menu/></button></div>{mobile&&<div className="mobile-nav">{t.nav.map((n,i)=><a key={n} href={['#produkter','#expertis','#support','#om'][i]} onClick={()=>setMobile(false)}>{n}</a>)}</div>}</header>
-    <section className="hero" id="top"><div className="hero-grid"/><div className="hero-copy"><div className="eyebrow"><span/>{t.eyebrow}</div><h1>{t.titleA}<br/><strong>{t.titleB}</strong></h1><p>{t.lead}</p><div className="hero-actions"><a className="primary-button" href="#produkter">{t.explore}<ArrowRight size={18}/></a><a className="text-link" href="#expertis">{t.experts}<span>↗</span></a></div><div className="trust-row">{t.trust.map(x=><span key={x}><Check size={15}/>{x}</span>)}</div></div><div className="signal-panel"><div className="signal-orbit"><div className="orbit-line one"/><div className="orbit-line two"/><div className="orbit-line three"/><div className="signal-core"><Sparkles size={30}/><small>SELECTEC</small><strong>NORDIC CORE</strong></div><div className="signal-node node-one"><span>01</span><b>Strategi</b></div><div className="signal-node node-two"><span>02</span><b>Implementation</b></div><div className="signal-node node-three"><span>03</span><b>Support</b></div></div><div className="panel-status"><i/>{t.markets}<span>SE · NO · DK · FI · IS</span></div></div></section>
-    <section className="metrics"><div><strong>20+</strong><span>{en?'years of specialist knowledge':'år av specialistkunskap'}</span></div><div><strong>5</strong><span>{en?'Nordic markets':'nordiska marknader'}</span></div><div><strong>100%</strong><span>{en?'focused on document workflows':'fokus på dokumentflöden'}</span></div><div className="metric-quote"><ShieldCheck/><span>{en?'The right solution.':'Rätt lösning.'}<br/><b>{en?'Secure all the way.':'Trygg hela vägen.'}</b></span></div></section>
-    <section className="products-section" id="produkter"><div className="section-intro"><div><span className="section-index">01 / SOLUTIONS</span><h2>{t.solutionTitle}</h2></div><p>{t.solutionLead}</p></div><div className="product-grid">{products.map((p,i)=><article className="product-card" key={p.name} style={{'--accent':p.color} as React.CSSProperties}><div className="product-top"><span>{p.tag}</span><span>0{i+1}</span></div><div className="product-logo">{p.logo?<img src={p.logo} alt={p.name}/>:<span className="drivve-wordmark">drivve <b>| image</b></span>}</div><p className="product-name">{p.name}</p><h3>{en?p.enTitle:p.title}</h3><p>{en?p.enCopy:p.copy}</p><a href={p.url} target="_blank" rel="noreferrer">{en?'Explore ':'Upptäck '}{p.name}<ArrowRight size={17}/></a></article>)}</div></section>
-    <section className="expertise" id="expertis"><div className="expertise-copy"><span className="section-index">02 / EXPERTISE</span><h2>{t.expertiseTitle}</h2><p>{t.expertiseLead}</p><a href="#kontakt" className="primary-button">{t.experts}<ArrowRight size={18}/></a></div><div className="expertise-stack"><div><span>01</span><b>{en?'Training':'Utbildning'}</b><p>{en?'Product knowledge and confidence for partners and end users.':'Produktkunskap och trygghet för partners och slutanvändare.'}</p></div><div><span>02</span><b>{en?'Consulting':'Konsultation'}</b><p>{en?'Analysis, proof of concept and a clear path from need to solution.':'Analys, proof of concept och en tydlig väg från behov till lösning.'}</p></div><div><span>03</span><b>{en?'Installation':'Installation'}</b><p>{en?'Certified nationwide rollouts, configuration and end-user training.':'Certifierad rikstäckande utrullning, konfiguration och slutanvändarutbildning.'}</p></div></div></section>
-    <section className="support" id="support"><div><span className="section-index">03 / SUPPORT</span><h2>{t.supportTitle}</h2><p>{t.supportLead}</p></div><div className="support-actions"><button className="primary-button" onClick={()=>{setChat(true);setMode('ticket')}}><Headphones size={18}/>{en?'Create support case':'Skapa supportärende'}</button><button className="outline-button" onClick={()=>{setChat(true);setMode('product')}}><Sparkles size={18}/>{en?'Find the right product':'Hitta rätt produkt'}</button></div></section>
-    <section className="contact" id="kontakt"><span>LET’S TALK</span><h2>{en?<>Ready for a smarter<br/>document workflow?</>:<>Redo för ett smartare<br/>dokumentflöde?</>}</h2><a href="mailto:info@selectecnordic.com">{t.talk}<ArrowRight/></a></section>
-    <section className="about-offices" id="om"><div className="about-lead"><span className="section-index">04 / SELECTEC NORDIC</span><h2>{en?'Local expertise across the Nordics.':'Lokal expertis i hela Norden.'}</h2><p>{en?'For more than 20 years we have helped partners and customers take control of print fleets, document workflows and digital information. We are a partner-focused Nordic distributor and a PaperCut Authorised Solution Centre.':'I över 20 år har vi hjälpt partners och kunder att ta kontroll över skrivarflottor, dokumentflöden och digital information. Vi är en partnerfokuserad nordisk distributör och ett auktoriserat PaperCut Solution Centre.'}</p></div><div className="office-grid"><article className="office-main"><small>{en?'HEAD OFFICE':'HUVUDKONTOR'}</small><h3>Sweden</h3><p>Selectec Nordic<br/>Mallslingan 12<br/>187 66 Täby</p><a href="https://goo.gl/maps/LaiKkqHLYeKQbxHDA" target="_blank" rel="noreferrer">{en?'Open in Google Maps':'Öppna i Google Maps'} ↗</a><a href="tel:+46854430410">+46 8 544 304 10</a></article><article><small>{en?'REGIONAL TEAM':'REGIONALT TEAM'}</small><h3>Denmark</h3><a href="tel:+4578703760">+45 78 70 37 60</a><a href="mailto:info@selectecnordic.com">info@selectecnordic.com</a></article><article><small>{en?'REGIONAL TEAM':'REGIONALT TEAM'}</small><h3>Finland</h3><a href="tel:+35825122170">+358 25 12 21 70</a><a href="mailto:info@selectecnordic.com">info@selectecnordic.com</a></article><article><small>{en?'REGIONAL TEAM':'REGIONALT TEAM'}</small><h3>Norway</h3><a href="tel:+46854430410">+46 8 544 304 10</a><a href="mailto:info@selectecnordic.com">info@selectecnordic.com</a></article></div></section>
-    <footer><a className="brand footer-brand" href="#top"><img src="/selectec-nordic-logo.png" alt="Selectec Nordic"/></a><p>{t.footer}</p><div><a href="https://selectecnordic.com/privacy-policy/" target="_blank">Privacy</a><a href="https://www.linkedin.com/company/nordicdoc-solutions-ab/" target="_blank">LinkedIn</a><a href="https://www.youtube.com/@SelectecNordic" target="_blank">YouTube</a></div><small>© 2026 Selectec Nordic</small></footer>
-    <button className="chat-launcher" onClick={()=>setChat(true)}><MessageCircle size={22}/><span><b>{en?'Need help?':'Behöver du hjälp?'}</b><small>{en?'Ask Selectec Assist':'Fråga Selectec Assist'}</small></span><i/></button>
-    {chat&&<div className="chat-overlay" onClick={()=>setChat(false)}><section className="chat-panel" role="dialog" aria-modal="true" aria-label="Selectec Assist" onClick={e=>e.stopPropagation()}><header><div><Sparkles/><span><b>Selectec Assist</b><small><i/> Online · Svarar direkt</small></span></div><button onClick={()=>setChat(false)}><X/></button></header><div className="chat-body"><div className="assistant-msg">{en?'Hi! I can help you find the right solution or create a support case.':'Hej! Jag hjälper dig gärna att hitta rätt lösning eller skapa ett supportärende.'}</div>{mode==='start'&&<div className="chat-options"><button onClick={()=>setMode('product')}>{en?'Help me choose a product ':'Hjälp mig välja produkt '}<ArrowRight/></button><button onClick={()=>setMode('ticket')}>{en?'I need support ':'Jag behöver support '}<ArrowRight/></button></div>}{mode==='product'&&<div className="chat-flow"><p>{en?'What would you like to improve?':'Vad vill ni förbättra?'}</p><div className="choice-grid"><button onClick={()=>setStep(1)}>{en?'Secure and manage printing':'Säkra och styra utskrifter'}</button><button onClick={()=>setStep(2)}>{en?'Digitise documents':'Digitalisera dokument'}</button><button onClick={()=>setStep(3)}>{en?'Secure identification':'Säker identifiering'}</button></div>{step>0&&<div className="recommend"><CircleCheck/><div><small>REKOMMENDATION</small><b>{recommendation}</b><p>Det här är en stark utgångspunkt. En specialist hjälper er gärna att verifiera matchningen.</p><a href="#kontakt" onClick={()=>setChat(false)}>Boka produktsamtal <ArrowRight size={15}/></a></div></div>}</div>}{mode==='ticket'&&<div className="chat-flow">{!sent?<><p>Beskriv kort vad du behöver hjälp med.</p><textarea value={message} onChange={e=>setMessage(e.target.value)} placeholder="Exempel: Vi kan inte släppa utskriftsjobb på en enhet…"/><button className="send-ticket" disabled={message.trim().length<8} onClick={()=>setSent(true)}>Skapa ärende <Send size={15}/></button></>:<div className="ticket-success"><CircleCheck/><h3>Ärendet är registrerat</h3><p>Referens <b>SN-260904</b>. I den skarpa versionen kopplas detta till ert supportsystem.</p></div>}</div>}</div><footer><ShieldCheck size={14}/>Trygg vägledning från Selectec Nordic</footer></section></div>}
-  </main>
+export default function Home() {
+  const [lang, setLang] = useState<Lang>('sv');
+  const [langOpen, setLangOpen] = useState(false);
+  const [chat, setChat] = useState(false);
+  const [mode, setMode] = useState<'start' | 'product' | 'ticket'>('start');
+  const [step, setStep] = useState(0);
+  const [message, setMessage] = useState('');
+  const [sent, setSent] = useState(false);
+  const [mobile, setMobile] = useState(false);
+
+  const t = copy[lang];
+  const en = lang === 'en';
+
+  const recommendation = useMemo(
+    () => (step === 1 ? 'PaperCut' : step === 2 ? 'Drivve | Image' : 'ELATEC'),
+    [step]
+  );
+
+  useEffect(() => {
+    const context = (
+      document as Document & {
+        modelContext?: {
+          registerTool: (
+            tool: unknown,
+            options?: { signal: AbortSignal }
+          ) => void;
+        };
+      }
+    ).modelContext;
+
+    if (!context?.registerTool) return;
+
+    const ac = new AbortController();
+
+    context.registerTool(
+      {
+        name: 'start_selectec_support',
+        title: 'Start Selectec support',
+        description:
+          'Opens the Selectec support assistant for product guidance or a support request.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            mode: {
+              type: 'string',
+              enum: ['product', 'ticket'],
+            },
+          },
+          required: ['mode'],
+          additionalProperties: false,
+        },
+        annotations: {
+          readOnlyHint: false,
+          untrustedContentHint: false,
+        },
+        execute: (input: { mode: 'product' | 'ticket' }) => {
+          setChat(true);
+          setMode(input.mode);
+          return { status: 'opened', mode: input.mode };
+        },
+      },
+      { signal: ac.signal }
+    );
+
+    return () => ac.abort();
+  }, []);
+
+  return (
+    <main>
+      <header className="site-header">
+        <a className="brand" href="#top">
+          <img src="/selectec-nordic-logo.png" alt="Selectec Nordic" />
+        </a>
+
+        <nav aria-label="Huvudmeny">
+          <a href="#produkter">{t.nav[0]}</a>
+          <a href="#expertis">{t.nav[1]}</a>
+          <a href="#support">{t.nav[2]}</a>
+          <a href="#om">{t.nav[3]}</a>
+        </nav>
+
+        <div className="header-actions">
+          <div className="lang-wrap">
+            <button
+              className="language"
+              onClick={() => setLangOpen(!langOpen)}
+            >
+              {lang.toUpperCase()} <ChevronDown size={14} />
+            </button>
+
+            {langOpen && (
+              <div className="lang-menu">
+                {(['sv', 'en', 'no', 'da', 'fi', 'is'] as Lang[]).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => {
+                      setLang(l);
+                      setLangOpen(false);
+                    }}
+                  >
+                    {l.toUpperCase()}{' '}
+                    <span>
+                      {
+                        (
+                          {
+                            sv: 'Svenska',
+                            en: 'English',
+                            no: 'Norsk',
+                            da: 'Dansk',
+                            fi: 'Suomi',
+                            is: 'Íslenska',
+                          } as Record<Lang, string>
+                        )[l]
+                      }
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <a className="contact-button" href="#kontakt">
+            {t.contact} <ArrowRight size={16} />
+          </a>
+
+          <button
+            className="mobile-menu"
+            onClick={() => setMobile(!mobile)}
+          >
+            <Menu />
+          </button>
+        </div>
+
+        {mobile && (
+          <div className="mobile-nav">
+            {t.nav.map((n, i) => (
+              <a
+                key={n}
+                href={['#produkter', '#expertis', '#support', '#om'][i]}
+                onClick={() => setMobile(false)}
+              >
+                {n}
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <section className="hero" id="top">
+        <div className="hero-grid" />
+
+        <div className="hero-copy">
+          <div className="eyebrow">
+            <span />
+            {t.eyebrow}
+          </div>
+
+          <h1>
+            {t.titleA}
+            <br />
+            <strong>{t.titleB}</strong>
+          </h1>
+
+          <p>{t.lead}</p>
+
+          <div className="hero-actions">
+            <a className="primary-button" href="#produkter">
+              {t.explore}
+              <ArrowRight size={18} />
+            </a>
+
+            <a className="text-link" href="#expertis">
+              {t.experts}
+              <span>↗</span>
+            </a>
+          </div>
+
+          <div className="trust-row">
+            {t.trust.map((x) => (
+              <span key={x}>
+                <Check size={15} />
+                {x}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="signal-panel">
+          <div className="signal-orbit">
+            <div className="orbit-line one" />
+            <div className="orbit-line two" />
+            <div className="orbit-line three" />
+
+            <div className="signal-core">
+              <img
+                src="https://i.imgur.com/YDscBS5.png"
+                alt="Selectec Nordic"
+                className="signal-core-logo"
+              />
+            </div>
+
+            <div className="signal-node node-one">
+              <span>01</span>
+              <b>Strategi</b>
+            </div>
+
+            <div className="signal-node node-two">
+              <span>02</span>
+              <b>Implementation</b>
+            </div>
+
+            <div className="signal-node node-three">
+              <span>03</span>
+              <b>Support</b>
+            </div>
+          </div>
+
+          <div className="panel-status">
+            <i />
+            {t.markets}
+            <span>SE · NO · DK · FI · IS</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="metrics">
+        <div>
+          <strong>20+</strong>
+          <span>
+            {en ? 'years of specialist knowledge' : 'år av specialistkunskap'}
+          </span>
+        </div>
+
+        <div>
+          <strong>5</strong>
+          <span>{en ? 'Nordic markets' : 'nordiska marknader'}</span>
+        </div>
+
+        <div>
+          <strong>100%</strong>
+          <span>
+            {en
+              ? 'focused on document workflows'
+              : 'fokus på dokumentflöden'}
+          </span>
+        </div>
+
+        <div className="metric-quote">
+          <ShieldCheck />
+          <span>
+            {en ? 'The right solution.' : 'Rätt lösning.'}
+            <br />
+            <b>{en ? 'Secure all the way.' : 'Trygg hela vägen.'}</b>
+          </span>
+        </div>
+      </section>
+
+      <section className="products-section" id="produkter">
+        <div className="section-intro">
+          <div>
+            <span className="section-index">01 / SOLUTIONS</span>
+            <h2>{t.solutionTitle}</h2>
+          </div>
+          <p>{t.solutionLead}</p>
+        </div>
+
+        <div className="product-grid">
+          {products.map((p, i) => (
+            <article
+              className="product-card"
+              key={p.name}
+              style={{ '--accent': p.color } as React.CSSProperties}
+            >
+              <div className="product-top">
+                <span>{p.tag}</span>
+                <span>0{i + 1}</span>
+              </div>
+
+              <div className="product-logo">
+                {p.logo ? (
+                  <img src={p.logo} alt={p.name} />
+                ) : (
+                  <span className="drivve-wordmark">
+                    drivve <b>| image</b>
+                  </span>
+                )}
+              </div>
+
+              <p className="product-name">{p.name}</p>
+              <h3>{en ? p.enTitle : p.title}</h3>
+              <p>{en ? p.enCopy : p.copy}</p>
+
+              <a href={p.url} target="_blank" rel="noreferrer">
+                {en ? 'Explore ' : 'Upptäck '}
+                {p.name}
+                <ArrowRight size={17} />
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="expertise" id="expertis">
+        <div className="expertise-copy">
+          <span className="section-index">02 / EXPERTISE</span>
+          <h2>{t.expertiseTitle}</h2>
+          <p>{t.expertiseLead}</p>
+
+          <a href="#kontakt" className="primary-button">
+            {t.experts}
+            <ArrowRight size={18} />
+          </a>
+        </div>
+
+        <div className="expertise-stack">
+          <div>
+            <span>01</span>
+            <b>{en ? 'Training' : 'Utbildning'}</b>
+            <p>
+              {en
+                ? 'Product knowledge and confidence for partners and end users.'
+                : 'Produktkunskap och trygghet för partners och slutanvändare.'}
+            </p>
+          </div>
+
+          <div>
+            <span>02</span>
+            <b>{en ? 'Consulting' : 'Konsultation'}</b>
+            <p>
+              {en
+                ? 'Analysis, proof of concept and a clear path from need to solution.'
+                : 'Analys, proof of concept och en tydlig väg från behov till lösning.'}
+            </p>
+          </div>
+
+          <div>
+            <span>03</span>
+            <b>{en ? 'Installation' : 'Installation'}</b>
+            <p>
+              {en
+                ? 'Certified nationwide rollouts, configuration and end-user training.'
+                : 'Certifierad rikstäckande utrullning, konfiguration och slutanvändarutbildning.'}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="support" id="support">
+        <div>
+          <span className="section-index">03 / SUPPORT</span>
+          <h2>{t.supportTitle}</h2>
+          <p>{t.supportLead}</p>
+        </div>
+
+        <div className="support-actions">
+          <button
+            className="primary-button"
+            onClick={() => {
+              setChat(true);
+              setMode('ticket');
+            }}
+          >
+            <Headphones size={18} />
+            {en ? 'Create support case' : 'Skapa supportärende'}
+          </button>
+
+          <button
+            className="outline-button"
+            onClick={() => {
+              setChat(true);
+              setMode('product');
+            }}
+          >
+            <Sparkles size={18} />
+            {en ? 'Find the right product' : 'Hitta rätt produkt'}
+          </button>
+        </div>
+      </section>
+
+      <section className="contact" id="kontakt">
+        <span>LET’S TALK</span>
+
+        <h2>
+          {en ? (
+            <>
+              Ready for a smarter
+              <br />
+              document workflow?
+            </>
+          ) : (
+            <>
+              Redo för ett smartare
+              <br />
+              dokumentflöde?
+            </>
+          )}
+        </h2>
+
+        <a href="mailto:info@selectecnordic.com">
+          {t.talk}
+          <ArrowRight />
+        </a>
+      </section>
+
+      <section className="about-offices" id="om">
+        <div className="about-lead">
+          <span className="section-index">04 / SELECTEC NORDIC</span>
+
+          <h2>
+            {en
+              ? 'Local expertise across the Nordics.'
+              : 'Lokal expertis i hela Norden.'}
+          </h2>
+
+          <p>
+            {en
+              ? 'For more than 20 years we have helped partners and customers take control of print fleets, document workflows and digital information. We are a partner-focused Nordic distributor and a PaperCut Authorised Solution Centre.'
+              : 'I över 20 år har vi hjälpt partners och kunder att ta kontroll över skrivarflottor, dokumentflöden och digital information. Vi är en partnerfokuserad nordisk distributör och ett auktoriserat PaperCut Solution Centre.'}
+          </p>
+        </div>
+
+        <div className="office-grid">
+          <article className="office-main">
+            <small>{en ? 'HEAD OFFICE' : 'HUVUDKONTOR'}</small>
+            <h3>Sweden</h3>
+
+            <p>
+              Selectec Nordic
+              <br />
+              Mallslingan 12
+              <br />
+              187 66 Täby
+            </p>
+
+            <a
+              href="https://goo.gl/maps/LaiKkqHLYeKQbxHDA"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {en ? 'Open in Google Maps' : 'Öppna i Google Maps'} ↗
+            </a>
+
+            <a href="tel:+46854430410">+46 8 544 304 10</a>
+          </article>
+
+          <article>
+            <small>{en ? 'REGIONAL TEAM' : 'REGIONALT TEAM'}</small>
+            <h3>Denmark</h3>
+            <a href="tel:+4578703760">+45 78 70 37 60</a>
+            <a href="mailto:info@selectecnordic.com">
+              info@selectecnordic.com
+            </a>
+          </article>
+
+          <article>
+            <small>{en ? 'REGIONAL TEAM' : 'REGIONALT TEAM'}</small>
+            <h3>Finland</h3>
+            <a href="tel:+35825122170">+358 25 12 21 70</a>
+            <a href="mailto:info@selectecnordic.com">
+              info@selectecnordic.com
+            </a>
+          </article>
+
+          <article>
+            <small>{en ? 'REGIONAL TEAM' : 'REGIONALT TEAM'}</small>
+            <h3>Norway</h3>
+            <a href="tel:+46854430410">+46 8 544 304 10</a>
+            <a href="mailto:info@selectecnordic.com">
+              info@selectecnordic.com
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        <a className="brand footer-brand" href="#top">
+          <img src="/selectec-nordic-logo.png" alt="Selectec Nordic" />
+        </a>
+
+        <p>{t.footer}</p>
+
+        <div>
+          <a
+            href="https://selectecnordic.com/privacy-policy/"
+            target="_blank"
+          >
+            Privacy
+          </a>
+
+          <a
+            href="https://www.linkedin.com/company/nordicdoc-solutions-ab/"
+            target="_blank"
+          >
+            LinkedIn
+          </a>
+
+          <a
+            href="https://www.youtube.com/@SelectecNordic"
+            target="_blank"
+          >
+            YouTube
+          </a>
+        </div>
+
+        <small>© 2026 Selectec Nordic</small>
+      </footer>
+
+      <button className="chat-launcher" onClick={() => setChat(true)}>
+        <MessageCircle size={22} />
+
+        <span>
+          <b>{en ? 'Need help?' : 'Behöver du hjälp?'}</b>
+          <small>{en ? 'Ask Selectec Assist' : 'Fråga Selectec Assist'}</small>
+        </span>
+
+        <i />
+      </button>
+
+      {chat && (
+        <div className="chat-overlay" onClick={() => setChat(false)}>
+          <section
+            className="chat-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Selectec Assist"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <header>
+              <div>
+                <Sparkles />
+
+                <span>
+                  <b>Selectec Assist</b>
+                  <small>
+                    <i /> Online · Svarar direkt
+                  </small>
+                </span>
+              </div>
+
+              <button onClick={() => setChat(false)}>
+                <X />
+              </button>
+            </header>
+
+            <div className="chat-body">
+              <div className="assistant-msg">
+                {en
+                  ? 'Hi! I can help you find the right solution or create a support case.'
+                  : 'Hej! Jag hjälper dig gärna att hitta rätt lösning eller skapa ett supportärende.'}
+              </div>
+
+              {mode === 'start' && (
+                <div className="chat-options">
+                  <button onClick={() => setMode('product')}>
+                    {en
+                      ? 'Help me choose a product '
+                      : 'Hjälp mig välja produkt '}
+                    <ArrowRight />
+                  </button>
+
+                  <button onClick={() => setMode('ticket')}>
+                    {en ? 'I need support ' : 'Jag behöver support '}
+                    <ArrowRight />
+                  </button>
+                </div>
+              )}
+
+              {mode === 'product' && (
+                <div className="chat-flow">
+                  <p>
+                    {en
+                      ? 'What would you like to improve?'
+                      : 'Vad vill ni förbättra?'}
+                  </p>
+
+                  <div className="choice-grid">
+                    <button onClick={() => setStep(1)}>
+                      {en
+                        ? 'Secure and manage printing'
+                        : 'Säkra och styra utskrifter'}
+                    </button>
+
+                    <button onClick={() => setStep(2)}>
+                      {en ? 'Digitise documents' : 'Digitalisera dokument'}
+                    </button>
+
+                    <button onClick={() => setStep(3)}>
+                      {en
+                        ? 'Secure identification'
+                        : 'Säker identifiering'}
+                    </button>
+                  </div>
+
+                  {step > 0 && (
+                    <div className="recommend">
+                      <CircleCheck />
+
+                      <div>
+                        <small>REKOMMENDATION</small>
+                        <b>{recommendation}</b>
+
+                        <p>
+                          Det här är en stark utgångspunkt. En specialist
+                          hjälper er gärna att verifiera matchningen.
+                        </p>
+
+                        <a
+                          href="#kontakt"
+                          onClick={() => setChat(false)}
+                        >
+                          Boka produktsamtal <ArrowRight size={15} />
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {mode === 'ticket' && (
+                <div className="chat-flow">
+                  {!sent ? (
+                    <>
+                      <p>Beskriv kort vad du behöver hjälp med.</p>
+
+                      <textarea
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Exempel: Vi kan inte släppa utskriftsjobb på en enhet…"
+                      />
+
+                      <button
+                        className="send-ticket"
+                        disabled={message.trim().length < 8}
+                        onClick={() => setSent(true)}
+                      >
+                        Skapa ärende <Send size={15} />
+                      </button>
+                    </>
+                  ) : (
+                    <div className="ticket-success">
+                      <CircleCheck />
+                      <h3>Ärendet är registrerat</h3>
+                      <p>
+                        Referens <b>SN-260904</b>. I den skarpa versionen
+                        kopplas detta till ert supportsystem.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <footer>
+              <ShieldCheck size={14} />
+              Trygg vägledning från Selectec Nordic
+            </footer>
+          </section>
+        </div>
+      )}
+    </main>
+  );
 }
