@@ -451,12 +451,14 @@ export default function Home() {
             <div className="orbit-line three" />
 
             <div className="signal-core">
-              <img
-                src="https://i.imgur.com/YDscBS5.png"
-                alt="Selectec Nordic"
-                className="signal-core-logo"
-              />
-            </div>
+  <img
+    src="https://i.imgur.com/YDscBS5.png"
+    alt="Selectec Nordic"
+    className="signal-core-logo"
+  />
+  <small>SELECTEC</small>
+  <strong>NORDIC CORE</strong>
+</div>
 
             <div className="signal-node node-one">
               <span>01</span>
