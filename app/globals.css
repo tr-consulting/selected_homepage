@@ -37,3 +37,31 @@ footer{background:#102d1b}.mobile-nav{background:#fff!important;color:var(--ink)
   display: block;
   margin-bottom: 6px;
 }
+.signal-core {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.signal-core-logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  display: block;
+  margin: 0 0 2px 0;
+}
+
+.signal-core small {
+  display: block;
+  margin: 0;
+  line-height: 1;
+}
+
+.signal-core strong {
+  display: block;
+  margin: 1px 0 0;
+  line-height: 1;
+}
