@@ -303,12 +303,28 @@ export default function DppPage() {
     localStorage.setItem("selectec-lang", lang);
   }, [lang]);
   useEffect(() => {
-    const payload = `https://demo.selectec.se/product?name=${encodeURIComponent(demoProduct)}&model=${encodeURIComponent(demoModel)}&serial=${encodeURIComponent(demoSerial)}&features=${encodeURIComponent(demoButtons.join(","))}`;
-    QRCode.toDataURL(payload, {
-      width: 220,
-      margin: 1,
-      color: { dark: "#182019", light: "#ffffff" },
-    }).then(setQrSrc);
+    const source = [demoProduct, demoModel, demoSerial, ...demoButtons].join("|");
+    let hash = 2166136261;
+    for (let index = 0; index < source.length; index += 1) {
+      hash ^= source.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    const code = QRCode.create(`selectec:${(hash >>> 0).toString(36)}`, {
+      errorCorrectionLevel: "L",
+    });
+    const margin = 2;
+    const size = code.modules.size;
+    const blocks: string[] = [];
+    for (let row = 0; row < size; row += 1) {
+      for (let column = 0; column < size; column += 1) {
+        if (code.modules.get(row, column)) {
+          blocks.push(`<rect x="${column + margin + 0.05}" y="${row + margin + 0.05}" width="0.9" height="0.9" rx="0.28"/>`);
+        }
+      }
+    }
+    const dimension = size + margin * 2;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${dimension} ${dimension}" shape-rendering="geometricPrecision"><g fill="#84b82c">${blocks.join("")}</g></svg>`;
+    setQrSrc(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`);
   }, [demoProduct, demoModel, demoSerial, demoButtons]);
   useEffect(() => {
     const element = document.querySelector(".dpp-kpis");
