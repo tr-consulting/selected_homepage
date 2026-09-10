@@ -56,6 +56,7 @@ export default function PaperCutPage() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [lang, setLang] = useState<Lang>("sv");
   const [langOpen, setLangOpen] = useState(false);
+  const [kpis, setKpis] = useState([0, 0, 0]);
   const ui = paperUi[lang];
   useEffect(() => {
     const saved = localStorage.getItem("selectec-theme");
@@ -86,6 +87,29 @@ export default function PaperCutPage() {
     if (saved && languageNames[saved]) setLang(saved);
   }, []);
   useEffect(() => localStorage.setItem("selectec-lang", lang), [lang]);
+  useEffect(() => {
+    const element = document.querySelector(".papercut-proof");
+    if (!element) return;
+    let frame = 0;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setKpis([100, 100, 195]);
+      } else {
+        const start = performance.now();
+        const tick = (now: number) => {
+          const progress = Math.min((now - start) / 1250, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setKpis([Math.round(100 * eased), Math.round(100 * eased), Math.round(195 * eased)]);
+          if (progress < 1) frame = requestAnimationFrame(tick);
+        };
+        frame = requestAnimationFrame(tick);
+      }
+      observer.disconnect();
+    }, { threshold: 0.4 });
+    observer.observe(element);
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, []);
   return (
     <main className="papercut-page">
       <header className="dpp-header">
@@ -179,15 +203,15 @@ export default function PaperCutPage() {
       </section>
       <section className="papercut-proof" data-reveal>
         <div>
-          <strong>100 miljoner</strong>
+          <strong>{kpis[0]} miljoner</strong>
           <span>{ui.users}</span>
         </div>
         <div>
-          <strong>100 000</strong>
+          <strong>{kpis[1]} 000</strong>
           <span>{ui.orgs}</span>
         </div>
         <div>
-          <strong>195</strong>
+          <strong>{kpis[2]}</strong>
           <span>{ui.countries}</span>
         </div>
         <p>

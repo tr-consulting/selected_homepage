@@ -269,6 +269,7 @@ export default function DppPage() {
     "AI-assistent",
   ]);
   const [qrSrc, setQrSrc] = useState("");
+  const [kpis, setKpis] = useState([0, 0, 0]);
   const ui = dppUi[lang];
   useEffect(() => {
     const saved = localStorage.getItem("selectec-theme");
@@ -309,6 +310,29 @@ export default function DppPage() {
       color: { dark: "#182019", light: "#ffffff" },
     }).then(setQrSrc);
   }, [demoProduct, demoModel, demoSerial, demoButtons]);
+  useEffect(() => {
+    const element = document.querySelector(".dpp-kpis");
+    if (!element) return;
+    let frame = 0;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setKpis([1, 0, 24]);
+      } else {
+        const start = performance.now();
+        const tick = (now: number) => {
+          const progress = Math.min((now - start) / 1100, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setKpis([Math.round(eased), 0, Math.round(24 * eased)]);
+          if (progress < 1) frame = requestAnimationFrame(tick);
+        };
+        frame = requestAnimationFrame(tick);
+      }
+      observer.disconnect();
+    }, { threshold: 0.4 });
+    observer.observe(element);
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, []);
   return (
     <main className="dpp-page">
       <header className="dpp-header">
@@ -410,6 +434,13 @@ export default function DppPage() {
             </span>
           ))}
         </div>
+      </section>
+
+      <section className="dpp-kpis metrics" data-reveal>
+        <div><strong>{kpis[0]}</strong><span>{lang === "en" ? "QR code per product" : "QR-kod per produkt"}</span></div>
+        <div><strong>{kpis[1]}</strong><span>{lang === "en" ? "apps required" : "appar behöver installeras"}</span></div>
+        <div><strong>{kpis[2]}/7</strong><span>{lang === "en" ? "information available" : "information tillgänglig"}</span></div>
+        <div className="metric-quote"><QrCode/><span>{lang === "en" ? "Scan. Understand." : "Skanna. Förstå."}<br/><b>{lang === "en" ? "Take the next step." : "Ta nästa steg."}</b></span></div>
       </section>
 
       <section className="plain-examples" id="exempel">
