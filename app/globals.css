@@ -2131,9 +2131,11 @@ html[data-theme="light"] .footer-brand img {
   background: var(--card);
   padding: 22px;
   transition:
-    transform 0.5s var(--motion),
-    border-color 0.35s,
-    background 0.35s;
+    transform 0.65s var(--motion),
+    border-color 0.55s var(--motion),
+    background 0.55s var(--motion),
+    opacity 0.65s var(--motion),
+    filter 0.65s var(--motion);
   transition-delay: var(--delay, 0ms);
 }
 .placeholder-portrait {
@@ -2276,9 +2278,10 @@ html[data-theme="light"] .footer-brand img {
   object-position: center 28%;
   filter: grayscale(1) contrast(1.03);
   transition:
-    opacity 0.68s var(--motion),
-    transform 0.95s var(--motion),
-    filter 0.55s;
+    opacity 0.95s var(--motion),
+    transform 1.2s var(--motion),
+    filter 0.8s var(--motion);
+  will-change: opacity, transform;
 }
 .person-photo .portrait-hover,
 .person-modal-photo .portrait-hover {
@@ -2332,9 +2335,20 @@ html[data-theme="light"] .footer-brand img {
   color: var(--text);
 }
 .person-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   border-color: rgba(var(--acid-rgb), 0.55);
   background: var(--surface-2);
+}
+.team-grid:has(.person-card:hover) .person-card:not(:hover),
+.team-grid:has(.person-card:focus-visible) .person-card:not(:focus-visible) {
+  opacity: 0.5;
+  filter: brightness(0.62) saturate(0.72);
+}
+.person-card:focus-visible {
+  position: relative;
+  z-index: 2;
+  outline: 2px solid var(--acid);
+  outline-offset: -2px;
 }
 .person-card:hover .portrait-primary,
 .person-modal:hover .portrait-primary {
