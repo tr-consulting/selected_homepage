@@ -19,7 +19,7 @@
 .site-header{background:#fff;color:var(--ink);border-bottom-color:rgba(23,35,25,.12)}
 .site-header nav{color:#59645d}.site-header .language,.site-header .mobile-menu{color:var(--ink)}
 .brand-mark{background:var(--acid);color:#fff;box-shadow:8px 0 0 -5px #fff,11px 0 0 -5px var(--acid)}
-.brand img{display:block;width:190px;height:auto;object-fit:contain}.footer-brand{background:#fff;padding:10px 14px;width:fit-content}.footer-brand img{width:176px}
+.brand img{display:block;width:190px;height:auto;object-fit:contain}.footer-brand{background:transparent;padding:10px 0;width:fit-content}.footer-brand img{width:176px}
 .brand em{color:#8a938d}.hero,.expertise{background:var(--forest)}
 .hero:after{background:rgba(132,184,44,.23)}
 .signal-node,.chat-panel>header,.recommend,.chat-launcher{background:#102d1b}
@@ -39,7 +39,7 @@ body{background:var(--canvas);color:var(--text);transition:background .35s ease,
 .site-header nav,.site-header .language,.site-header .mobile-menu{color:var(--soft)}
 .theme-toggle{width:34px;height:34px;border:1px solid var(--theme-line);border-radius:50%;background:transparent;color:var(--text);display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .2s}
 .theme-toggle:hover{background:rgba(132,184,44,.12);transform:rotate(10deg)}
-.brand{position:relative;background:transparent;padding:6px 0}.brand img{display:block;width:190px;height:auto;transition:opacity .25s ease}.brand .logo-mono{position:absolute;inset:6px 0 auto;filter:invert(1);opacity:1}.brand .logo-color{opacity:0}.footer-brand{background:#fff;padding:6px 10px}.footer-brand img{filter:none}
+.brand{position:relative;background:transparent;padding:6px 0}.brand img{display:block;width:190px;height:auto;transition:opacity .25s ease}.brand .logo-mono{position:absolute;inset:6px 0 auto;filter:invert(1);opacity:1}.brand .logo-color{opacity:0}.footer-brand{background:transparent;padding:6px 0}.footer-brand img{filter:invert(1)}
 html[data-theme="light"] .site-header{background:rgba(255,255,255,.9)}
 html[data-theme="light"] .brand .logo-color{opacity:1}html[data-theme="light"] .brand .logo-mono{opacity:0}html[data-theme="light"] .footer-brand img{filter:none}
 .hero{min-height:650px;padding-top:68px;padding-bottom:74px;background:radial-gradient(circle at 74% 45%,rgba(var(--acid-rgb),.15),transparent 29%),linear-gradient(135deg,#09100b 0%,#0d1710 100%)}
