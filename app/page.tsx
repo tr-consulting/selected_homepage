@@ -40,12 +40,12 @@ const teamMembers = [
   {slug:'poul-erik',name:'Poul-Erik Viborg Dose',title:'CEO & Sales Manager',enTitle:'CEO & Sales Manager',country:'DENMARK',email:'poul-erik.dose@selectec.com',image:'/employees/poul-erik1.png',hover:'/employees/poul-erik2.png'},
   {slug:'lembit',name:'Lembit Karlson',title:'Vice CEO',enTitle:'Vice CEO',country:'SWEDEN',email:'lembit.karlson@selectec.com',image:'/employees/lembit1.png',hover:'/employees/lembit2.png'},
   {slug:'anette',name:'Anette Andersen',title:'CFO',enTitle:'CFO',country:'SWEDEN',email:'anette.andersen@selectec.com',image:'/employees/anette1.png',hover:'/employees/anette2.png'},
-  {slug:'sture',name:'Sture Himledahl',title:'Channel Development Manager',enTitle:'Channel Development Manager',country:'SWEDEN',email:'sture.himledahl@selectec.com',image:'/employees/sture1.png',hover:'/employees/sture2.png'},
+  {slug:'stephan',name:'Stephan Norrstrom',title:'Applikationsspecialist',enTitle:'Application Specialist',country:'SWEDEN',email:'stephan.norrstrom@selectec.com',image:'/employees/stephan1.png',hover:'/employees/stephan2.png'},
   {slug:'jens',name:'Jens Djerf',title:'Channel Sales Manager',enTitle:'Channel Sales Manager',country:'SWEDEN',email:'jens.djerf@selectec.com',image:'/employees/jens1.png',hover:'/employees/jens2.png'},
   {slug:'sanne',name:'Sanne Nyegaard',title:'Project Manager & Account Manager',enTitle:'Project Manager & Account Manager',country:'DENMARK',email:'sanne.nyegaard@selectec.com',image:'/employees/sanne1.png',hover:'/employees/sanne2.png'},
+  {slug:'patrik',name:'Patrik Langen',title:'Applikationsspecialist',enTitle:'Application Specialist',country:'SWEDEN',email:'patrik.langen@selectec.com',image:'/employees/patrik1.png',hover:'/employees/patrik2.png'},
   {slug:'tobias',name:'Tobias Ransäter',title:'Applikationsspecialist & Presales Consultant',enTitle:'Application Specialist & Presales Consultant',country:'SWEDEN',email:'tobias.ransater@selectec.com',phone:'+46 010 147 71 07',phoneHref:'+460101477107',image:'/employees/tobias.png',hover:'/employees/tobias-laugh.png'},
-  {slug:'stephan',name:'Stephan Norrstrom',title:'Applikationsspecialist',enTitle:'Application Specialist',country:'SWEDEN',email:'stephan.norrstrom@selectec.com',image:'/employees/stephan1.png',hover:'/employees/stephan2.png'},
-  {slug:'patrik',name:'Patrik Langen',title:'Applikationsspecialist',enTitle:'Application Specialist',country:'SWEDEN',email:'patrik.langen@selectec.com',image:'/employees/patrik1.png',hover:'/employees/patrik2.png'}
+  {slug:'sture',name:'Sture Himledahl',title:'Channel Development Manager',enTitle:'Channel Development Manager',country:'SWEDEN',email:'sture.himledahl@selectec.com',image:'/employees/sture1.png',hover:'/employees/sture2.png'}
 ];
 
 export default function Home(){
