@@ -9,11 +9,15 @@ import {
   Boxes,
   Car,
   ChevronDown,
+  Coffee,
   Database,
+  ExternalLink,
   Lightbulb,
   LockKeyhole,
   MessageCircle,
+  Monitor,
   Moon,
+  Printer,
   QrCode,
   Radio,
   Shirt,
@@ -256,6 +260,21 @@ const builderOptions = [
   "Koppla ERP",
 ];
 
+const demoCopy: Record<Lang, { eyebrow: string; title: string; lead: string; portal: string; object: string }> = {
+  sv: { eyebrow: "SÄLJDEMO / LIVE", title: "Visa hur det fungerar. På riktigt.", lead: "Öppna hela demoportalen eller gå direkt till ett färdigt objekt. Perfekt när ni vill visa produktdata, service och nästa steg i ett kundmöte.", portal: "Öppna demoportalen", object: "Öppna objekt" },
+  en: { eyebrow: "SALES DEMO / LIVE", title: "Show how it works. For real.", lead: "Open the complete demo portal or jump straight to a ready-made object. Ideal for demonstrating product data, service and next steps in a customer meeting.", portal: "Open demo portal", object: "Open object" },
+  no: { eyebrow: "SALGSDEMO / LIVE", title: "Vis hvordan det fungerer. På ordentlig.", lead: "Åpne hele demoportalen eller gå direkte til et ferdig objekt når dere vil vise produktdata, service og neste steg.", portal: "Åpne demoportalen", object: "Åpne objekt" },
+  da: { eyebrow: "SALGSDEMO / LIVE", title: "Vis hvordan det virker. I praksis.", lead: "Åbn hele demoportalen eller gå direkte til et færdigt objekt, når I vil vise produktdata, service og næste skridt.", portal: "Åbn demoportalen", object: "Åbn objekt" },
+  fi: { eyebrow: "MYYNTIDEMO / LIVE", title: "Näytä, miten se toimii käytännössä.", lead: "Avaa koko demoportaali tai siirry suoraan valmiiseen kohteeseen ja esittele tuotetiedot, huolto sekä seuraavat vaiheet.", portal: "Avaa demoportaali", object: "Avaa kohde" },
+  is: { eyebrow: "SÖLUSÝNING / LIVE", title: "Sýnið hvernig þetta virkar í raun.", lead: "Opnið alla sýningargáttina eða farið beint í tilbúinn hlut til að sýna vöruupplýsingar, þjónustu og næstu skref.", portal: "Opna sýningargátt", object: "Opna hlut" },
+};
+
+const demoObjects = [
+  { icon: Coffee, type: "SERVICE & TILLBEHÖR", name: "Kaffemaskin Jura X8", href: "https://obj.blippa.com/hM1UnxVDOf9fdwGX" },
+  { icon: Printer, type: "UTSKRIFT & SUPPORT", name: "MFP Canon imageRUNNER C3226i", href: "https://obj.blippa.com/gUemnVbFX1EI87mQ" },
+  { icon: Monitor, type: "AV & MÖTESRUM", name: "Samsung Flip Pro 65", href: "https://obj.blippa.com/Ph4aWWlcoL5xoMgh" },
+];
+
 export default function DppPage() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [lang, setLang] = useState<Lang>("sv");
@@ -271,6 +290,7 @@ export default function DppPage() {
   const [qrSrc, setQrSrc] = useState("");
   const [kpis, setKpis] = useState([0, 0, 0]);
   const ui = dppUi[lang];
+  const demo = demoCopy[lang];
   useEffect(() => {
     const saved = localStorage.getItem("selectec-theme");
     const next = saved === "light" ? "light" : "dark";
@@ -374,6 +394,7 @@ export default function DppPage() {
               {label}
             </a>
           ))}
+          <a href="#demo">Demo</a>
         </nav>
         <div>
           <div className="lang-wrap">
@@ -668,6 +689,27 @@ export default function DppPage() {
             </div>
             <div className="phone-gs1">GS1 DIGITAL LINK · DEMO</div>
           </div>
+        </div>
+      </section>
+
+      <section className="sales-demo" id="demo" data-reveal>
+        <div className="sales-demo-intro">
+          <span className="section-index">{demo.eyebrow}</span>
+          <h2>{demo.title}</h2>
+          <p>{demo.lead}</p>
+          <a className="primary-button" href="https://selectec-nordic-demoportal.tr-consulting.workers.dev/assets" target="_blank" rel="noreferrer">
+            {demo.portal} <ExternalLink size={17} />
+          </a>
+        </div>
+        <div className="sales-demo-objects">
+          {demoObjects.map(({ icon: Icon, type, name, href }, index) => (
+            <a href={href} target="_blank" rel="noreferrer" key={href}>
+              <span className="demo-object-icon"><Icon /></span>
+              <small>0{index + 1} / {type}</small>
+              <strong>{name}</strong>
+              <b>{demo.object} <ArrowRight size={16} /></b>
+            </a>
+          ))}
         </div>
       </section>
 
