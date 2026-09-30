@@ -2524,6 +2524,254 @@ html[data-theme='light'] .mobile-product-links a + a {
   font-size: 14px;
   line-height: 1.7;
 }
+.foldr-process {
+  padding: 120px 7vw;
+  border-top: 1px solid var(--theme-line);
+  background: #09100b;
+  color: #fff;
+}
+.foldr-process-heading {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 7vw;
+  align-items: end;
+}
+.foldr-process-heading .section-index {
+  grid-column: 1/-1;
+}
+.foldr-process-heading h2 {
+  margin: 0;
+  font-size: clamp(44px, 5.5vw, 78px);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+.foldr-process-heading p {
+  margin: 0;
+  color: #aab5ae;
+  font-size: 17px;
+  line-height: 1.7;
+}
+.foldr-process-flow {
+  margin: 70px 0 34px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.025);
+}
+.foldr-process-flow > small {
+  color: var(--acid);
+  font:
+    9px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 0.15em;
+}
+.foldr-process-flow > div {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin-top: 22px;
+}
+.foldr-process-flow span {
+  position: relative;
+  min-height: 88px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-left: -1px;
+}
+.foldr-process-flow i {
+  color: #7d8a82;
+  font:
+    normal 9px var(--font-geist-mono),
+    monospace;
+}
+.foldr-process-flow b {
+  font-size: 12px;
+}
+.foldr-process-flow svg {
+  position: absolute;
+  z-index: 2;
+  right: -10px;
+  top: 34px;
+  width: 18px;
+  color: var(--acid);
+}
+.foldr-use-cases {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.foldr-use-cases article {
+  min-width: 0;
+  padding: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0e1812;
+}
+.foldr-use-cases article + article {
+  border-left: 0;
+}
+.foldr-use-copy > span {
+  color: var(--acid);
+  font:
+    9px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 0.14em;
+}
+.foldr-use-copy h3 {
+  margin: 20px 0 18px;
+  font-size: clamp(32px, 3.5vw, 48px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+.foldr-use-copy p {
+  min-height: 82px;
+  color: #aab5ae;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.captur-demo,
+.disclose-demo {
+  margin-top: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0a120d;
+}
+.captur-file {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.captur-file > svg {
+  color: var(--acid);
+}
+.captur-file > span {
+  flex: 1;
+  display: grid;
+  gap: 4px;
+}
+.captur-file small,
+.captur-fields small,
+.disclose-demo > small {
+  color: #859188;
+  font:
+    9px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 0.08em;
+}
+.captur-file b {
+  font-size: 13px;
+}
+.captur-file em {
+  color: var(--acid);
+  font:
+    normal 9px var(--font-geist-mono),
+    monospace;
+}
+.captur-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.captur-fields span {
+  position: relative;
+  padding: 17px;
+  display: grid;
+  gap: 7px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.captur-fields b {
+  font-size: 12px;
+}
+.captur-fields svg {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 13px;
+  color: var(--acid);
+}
+.captur-demo > p {
+  margin: 0;
+  padding: 17px;
+  display: flex;
+  gap: 10px;
+  color: #9da9a1;
+  font-size: 11px;
+  line-height: 1.55;
+}
+.captur-demo > p svg {
+  flex: 0 0 auto;
+  width: 16px;
+  color: var(--acid);
+}
+.disclose-demo {
+  padding: 20px;
+}
+.disclose-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 18px 0;
+}
+.disclose-summary span {
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  margin-left: -1px;
+  color: #7e8b83;
+  font:
+    8px var(--font-geist-mono),
+    monospace;
+  line-height: 1.5;
+}
+.disclose-summary b {
+  display: block;
+  color: #fff;
+  font-size: 19px;
+}
+.disclose-demo ol {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.disclose-demo li {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  color: #7f8b83;
+  font-size: 9px;
+  text-align: center;
+}
+.disclose-demo li i {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 50%;
+  font:
+    normal 9px var(--font-geist-mono),
+    monospace;
+}
+.disclose-demo li.complete {
+  color: #dce5de;
+}
+.disclose-demo li.complete i {
+  border-color: var(--acid);
+  background: rgba(var(--acid-rgb), 0.12);
+  color: var(--acid);
+}
+.disclose-demo li svg {
+  width: 13px;
+}
+.foldr-compliance-note {
+  margin: 22px 0 0;
+  padding-left: 16px;
+  border-left: 2px solid var(--acid);
+  color: #87938b;
+  font-size: 11px;
+  line-height: 1.55;
+}
 .foldr-deploy {
   background: var(--surface-2);
 }
@@ -2683,6 +2931,19 @@ html[data-theme='light'] .mobile-product-links a + a {
   .foldr-surface-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .foldr-process-heading {
+    grid-template-columns: 1fr;
+  }
+  .foldr-process-flow > div {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .foldr-use-cases {
+    grid-template-columns: 1fr;
+  }
+  .foldr-use-cases article + article {
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 0;
+  }
   .foldr-selectec {
     grid-template-columns: 1fr;
   }
@@ -2729,6 +2990,7 @@ html[data-theme='light'] .mobile-product-links a + a {
     border-top: 0;
   }
   .foldr-platform,
+  .foldr-process,
   .foldr-deploy,
   .foldr-selectec,
   .foldr-cta {
@@ -2744,6 +3006,39 @@ html[data-theme='light'] .mobile-product-links a + a {
   }
   .foldr-surface-grid article {
     min-height: 275px;
+  }
+  .foldr-process-heading {
+    grid-template-columns: 1fr;
+  }
+  .foldr-process-heading h2 {
+    font-size: 44px;
+  }
+  .foldr-process-flow {
+    padding: 16px;
+  }
+  .foldr-process-flow > div {
+    grid-template-columns: 1fr 1fr;
+  }
+  .foldr-process-flow span {
+    margin-top: -1px;
+  }
+  .foldr-process-flow svg {
+    display: none;
+  }
+  .foldr-use-cases article {
+    padding: 28px 20px;
+  }
+  .foldr-use-copy p {
+    min-height: 0;
+  }
+  .captur-fields {
+    grid-template-columns: 1fr;
+  }
+  .disclose-summary span {
+    padding: 10px;
+  }
+  .disclose-summary b {
+    font-size: 15px;
   }
   .foldr-surface-grid h3 {
     margin-top: 70px;

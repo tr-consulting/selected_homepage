@@ -499,11 +499,200 @@ const storageNames = [
   'SMB / NAS',
 ];
 
+const processContent: Record<
+  Lang,
+  {
+    nav: string;
+    title: string;
+    lead: string;
+    existing: string;
+    steps: string[];
+    capturTitle: string;
+    capturLead: string;
+    capturExample: string;
+    fields: string[];
+    verify: string;
+    discloseTitle: string;
+    discloseLead: string;
+    discloseExample: string;
+    discloseSteps: string[];
+    complianceNote: string;
+  }
+> = {
+  sv: {
+    nav: 'Dokumentflöden',
+    title: 'Från befintliga dokument till kontrollerade arbetsflöden.',
+    lead: 'Foldr arbetar ovanpå lagringen ni redan har. Digitala dokument läses direkt, medan skannade dokument och bilder kan OCR-tolkas – utan att hela arkivet först måste flyttas.',
+    existing: 'BEFINTLIGA DOKUMENT · INGEN MIGRERING KRÄVS',
+    steps: [
+      'Dokument',
+      'Sök & OCR',
+      'Captur',
+      'Granska',
+      'Automatisera',
+      'Disclose',
+    ],
+    capturTitle: 'Captur gör dokument till användbar data.',
+    capturLead:
+      'Beskriv vilka fält ni behöver. Captur hittar dem i PDF:er, skannade dokument och e-postbilagor, även när layouten varierar.',
+    capturExample: 'Exempel · Leverantörsfaktura',
+    fields: ['Leverantör', 'Fakturanummer', 'Datum', 'Belopp'],
+    verify: 'Värdena kan granskas och rättas innan de skickas vidare via MaSH.',
+    discloseTitle: 'Disclose ger struktur åt registerutdrag.',
+    discloseLead:
+      'Samla material från anslutna filytor och godkända brevlådor, granska varje träff, maska känslig information och leverera säkert med ett dokumenterat beslutsunderlag.',
+    discloseExample: 'REGISTERFÖRFRÅGAN · DSC-0042',
+    discloseSteps: ['Samla in', 'Granska', 'Maska', 'Godkänn', 'Leverera'],
+    complianceNote:
+      'Foldr stödjer arbetet med GDPR- och informationsförfrågningar. Rätt process, ansvar och juridisk bedömning ligger alltid hos verksamheten.',
+  },
+  en: {
+    nav: 'Document flows',
+    title: 'From existing documents to governed workflows.',
+    lead: 'Foldr works on top of the storage you already have. Digital documents are read directly, while scans and images can be processed with OCR – without moving the entire archive first.',
+    existing: 'EXISTING DOCUMENTS · NO MIGRATION REQUIRED',
+    steps: [
+      'Documents',
+      'Search & OCR',
+      'Captur',
+      'Verify',
+      'Automate',
+      'Disclose',
+    ],
+    capturTitle: 'Captur turns documents into usable data.',
+    capturLead:
+      'Describe the fields you need. Captur finds them in PDFs, scans and email attachments, even when layouts differ.',
+    capturExample: 'Example · Supplier invoice',
+    fields: ['Supplier', 'Invoice number', 'Date', 'Total'],
+    verify:
+      'Values can be checked and corrected before MaSH sends them onwards.',
+    discloseTitle: 'Disclose brings structure to data requests.',
+    discloseLead:
+      'Collect records from connected storage and approved mailboxes, review every result, redact sensitive information and deliver securely with a recorded decision trail.',
+    discloseExample: 'SUBJECT ACCESS REQUEST · DSC-0042',
+    discloseSteps: ['Collect', 'Review', 'Redact', 'Approve', 'Deliver'],
+    complianceNote:
+      'Foldr supports GDPR and information-request workflows. The organisation remains responsible for its process, decisions and legal assessment.',
+  },
+  no: {
+    nav: 'Dokumentflyt',
+    title: 'Fra eksisterende dokumenter til kontrollerte arbeidsflyter.',
+    lead: 'Foldr arbeider oppå lagringen dere allerede har. Digitale dokumenter leses direkte, mens skannede dokumenter og bilder kan OCR-behandles – uten at hele arkivet må flyttes.',
+    existing: 'EKSISTERENDE DOKUMENTER · INGEN MIGRERING KREVES',
+    steps: [
+      'Dokumenter',
+      'Søk og OCR',
+      'Captur',
+      'Kontroller',
+      'Automatiser',
+      'Disclose',
+    ],
+    capturTitle: 'Captur gjør dokumenter til brukbare data.',
+    capturLead:
+      'Beskriv feltene dere trenger. Captur finner dem i PDF-er, skannede dokumenter og e-postvedlegg, selv når layouten varierer.',
+    capturExample: 'Eksempel · Leverandørfaktura',
+    fields: ['Leverandør', 'Fakturanummer', 'Dato', 'Beløp'],
+    verify:
+      'Verdiene kan kontrolleres og korrigeres før MaSH sender dem videre.',
+    discloseTitle: 'Disclose gir struktur til innsynskrav.',
+    discloseLead:
+      'Samle materiale, gjennomgå treff, skjul sensitiv informasjon og lever sikkert med et dokumentert beslutningsspor.',
+    discloseExample: 'INNSYNSKRAV · DSC-0042',
+    discloseSteps: ['Samle', 'Gjennomgå', 'Sladde', 'Godkjenne', 'Levere'],
+    complianceNote:
+      'Foldr støtter arbeidet med GDPR- og informasjonsforespørsler. Virksomheten har fortsatt ansvar for prosess og juridisk vurdering.',
+  },
+  da: {
+    nav: 'Dokumentflows',
+    title: 'Fra eksisterende dokumenter til kontrollerede workflows.',
+    lead: 'Foldr arbejder oven på den lagring, I allerede har. Digitale dokumenter læses direkte, mens scanninger og billeder kan OCR-behandles – uden at hele arkivet flyttes.',
+    existing: 'EKSISTERENDE DOKUMENTER · INGEN MIGRERING KRÆVES',
+    steps: [
+      'Dokumenter',
+      'Søgning & OCR',
+      'Captur',
+      'Kontrollér',
+      'Automatisér',
+      'Disclose',
+    ],
+    capturTitle: 'Captur gør dokumenter til brugbare data.',
+    capturLead:
+      'Beskriv de felter, I har brug for. Captur finder dem i PDF-filer, scanninger og mailbilag, selv når layoutet varierer.',
+    capturExample: 'Eksempel · Leverandørfaktura',
+    fields: ['Leverandør', 'Fakturanummer', 'Dato', 'Beløb'],
+    verify: 'Værdierne kan kontrolleres og rettes, før MaSH sender dem videre.',
+    discloseTitle: 'Disclose skaber struktur i indsigtssager.',
+    discloseLead:
+      'Indsaml materiale, gennemgå resultater, fjern følsomme oplysninger og lever sikkert med et dokumenteret beslutningsspor.',
+    discloseExample: 'INDSIGTSANMODNING · DSC-0042',
+    discloseSteps: ['Indsaml', 'Gennemgå', 'Redigér', 'Godkend', 'Levér'],
+    complianceNote:
+      'Foldr understøtter arbejdet med GDPR- og informationsanmodninger. Organisationen er fortsat ansvarlig for proces og juridisk vurdering.',
+  },
+  fi: {
+    nav: 'Asiakirjavirrat',
+    title: 'Nykyisistä asiakirjoista hallittuihin työnkulkuihin.',
+    lead: 'Foldr toimii nykyisen tallennuksen päällä. Digitaaliset asiakirjat luetaan suoraan ja skannatut tiedostot sekä kuvat voidaan OCR-käsitellä ilman koko arkiston siirtämistä.',
+    existing: 'NYKYISET ASIAKIRJAT · EI MIGRAATIOTA',
+    steps: [
+      'Asiakirjat',
+      'Haku ja OCR',
+      'Captur',
+      'Tarkista',
+      'Automatisoi',
+      'Disclose',
+    ],
+    capturTitle: 'Captur muuttaa asiakirjat käyttökelpoiseksi dataksi.',
+    capturLead:
+      'Kuvaile tarvitsemasi kentät. Captur löytää ne PDF-tiedostoista, skannauksista ja sähköpostiliitteistä myös asettelun vaihdellessa.',
+    capturExample: 'Esimerkki · Toimittajalasku',
+    fields: ['Toimittaja', 'Laskunumero', 'Päiväys', 'Summa'],
+    verify:
+      'Arvot voidaan tarkistaa ja korjata ennen kuin MaSH välittää ne eteenpäin.',
+    discloseTitle: 'Disclose tuo rakenteen tietopyyntöihin.',
+    discloseLead:
+      'Kerää aineisto, tarkista osumat, peitä arkaluonteiset tiedot ja toimita turvallisesti dokumentoidun päätösketjun kanssa.',
+    discloseExample: 'TIETOPYYNTÖ · DSC-0042',
+    discloseSteps: ['Kerää', 'Tarkista', 'Peitä', 'Hyväksy', 'Toimita'],
+    complianceNote:
+      'Foldr tukee GDPR- ja tietopyyntöprosesseja. Organisaatio vastaa edelleen prosessista ja oikeudellisesta arvioinnista.',
+  },
+  is: {
+    nav: 'Skjalaflæði',
+    title: 'Frá núverandi skjölum yfir í stýrð vinnuflæði.',
+    lead: 'Foldr vinnur ofan á geymslunni sem þið eigið nú þegar. Stafræn skjöl eru lesin beint og skönnuð skjöl og myndir má OCR-vinna án þess að flytja allt safnið.',
+    existing: 'NÚVERANDI SKJÖL · ENGINN FLUTNINGUR',
+    steps: [
+      'Skjöl',
+      'Leit og OCR',
+      'Captur',
+      'Yfirfara',
+      'Sjálfvirkni',
+      'Disclose',
+    ],
+    capturTitle: 'Captur breytir skjölum í nýtanleg gögn.',
+    capturLead:
+      'Lýsið reitunum sem þið þurfið. Captur finnur þá í PDF-skjölum, skönnunum og viðhengjum þótt uppsetningin sé mismunandi.',
+    capturExample: 'Dæmi · Reikningur birgja',
+    fields: ['Birgir', 'Reikningsnúmer', 'Dagsetning', 'Upphæð'],
+    verify:
+      'Hægt er að yfirfara og leiðrétta gildi áður en MaSH sendir þau áfram.',
+    discloseTitle: 'Disclose færir skipulag í gagnabeiðnir.',
+    discloseLead:
+      'Safnið gögnum, yfirfarið niðurstöður, hyljið viðkvæmar upplýsingar og afhentið á öruggan hátt með skráðu ákvörðunarferli.',
+    discloseExample: 'GAGNABEÐNI · DSC-0042',
+    discloseSteps: ['Safna', 'Yfirfara', 'Hylja', 'Samþykkja', 'Afhenda'],
+    complianceNote:
+      'Foldr styður vinnu við GDPR- og upplýsingabeiðnir. Fyrirtækið ber áfram ábyrgð á ferli og lagalegu mati.',
+  },
+};
+
 export default function FoldrPage() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [lang, setLang] = useState<Lang>('sv');
   const [langOpen, setLangOpen] = useState(false);
   const ui = content[lang];
+  const process = processContent[lang];
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('selectec-theme');
@@ -550,11 +739,10 @@ export default function FoldrPage() {
           />
         </a>
         <nav aria-label="Foldr menu">
-          {ui.nav.map((label, index) => (
-            <a key={label} href={['#plattform', '#drift', '#selectec'][index]}>
-              {label}
-            </a>
-          ))}
+          <a href="#plattform">{ui.nav[0]}</a>
+          <a href="#dokumentfloden">{process.nav}</a>
+          <a href="#drift">{ui.nav[1]}</a>
+          <a href="#selectec">{ui.nav[2]}</a>
         </nav>
         <div>
           <div className="lang-wrap">
@@ -705,9 +893,100 @@ export default function FoldrPage() {
         </div>
       </section>
 
+      <section className="foldr-process" id="dokumentfloden">
+        <div className="foldr-process-heading" data-reveal>
+          <span className="section-index">02 / CAPTUR + DISCLOSE</span>
+          <h2>{process.title}</h2>
+          <p>{process.lead}</p>
+        </div>
+        <div className="foldr-process-flow" data-reveal>
+          <small>{process.existing}</small>
+          <div>
+            {process.steps.map((step, index) => (
+              <span key={step}>
+                <i>0{index + 1}</i>
+                <b>{step}</b>
+                {index < process.steps.length - 1 && <ArrowRight />}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="foldr-use-cases">
+          <article className="foldr-captur" data-reveal>
+            <div className="foldr-use-copy">
+              <span>CAPTUR / INTELLIGENT EXTRACTION</span>
+              <h3>{process.capturTitle}</h3>
+              <p>{process.capturLead}</p>
+            </div>
+            <div className="captur-demo">
+              <div className="captur-file">
+                <Files />
+                <span>
+                  <small>{process.capturExample}</small>
+                  <b>invoice-2841.pdf</b>
+                </span>
+                <em>EXTRACTED</em>
+              </div>
+              <div className="captur-fields">
+                {process.fields.map((field, index) => (
+                  <span key={field}>
+                    <small>{field}</small>
+                    <b>
+                      {
+                        [
+                          'Nordic Supply AB',
+                          'INV-2841',
+                          '2026-09-30',
+                          '48 200 SEK',
+                        ][index]
+                      }
+                    </b>
+                    <Check />
+                  </span>
+                ))}
+              </div>
+              <p>
+                <ShieldCheck /> {process.verify}
+              </p>
+            </div>
+          </article>
+
+          <article className="foldr-disclose" data-reveal>
+            <div className="foldr-use-copy">
+              <span>DISCLOSE / GOVERNANCE</span>
+              <h3>{process.discloseTitle}</h3>
+              <p>{process.discloseLead}</p>
+            </div>
+            <div className="disclose-demo">
+              <small>{process.discloseExample}</small>
+              <div className="disclose-summary">
+                <span>
+                  <b>272</b> FILES FOUND
+                </span>
+                <span>
+                  <b>19</b> REDACTIONS
+                </span>
+                <span>
+                  <b>12</b> DAYS LEFT
+                </span>
+              </div>
+              <ol>
+                {process.discloseSteps.map((step, index) => (
+                  <li key={step} className={index < 3 ? 'complete' : ''}>
+                    <i>{index < 3 ? <Check /> : index + 1}</i>
+                    {step}
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <p className="foldr-compliance-note">{process.complianceNote}</p>
+          </article>
+        </div>
+      </section>
+
       <section className="foldr-deploy" id="drift">
         <div className="choice-heading" data-reveal>
-          <span className="section-index">02 / DEPLOY</span>
+          <span className="section-index">03 / DEPLOY</span>
           <h2>{ui.deploy}</h2>
           <p>{ui.deployLead}</p>
         </div>
@@ -733,7 +1012,7 @@ export default function FoldrPage() {
 
       <section className="foldr-selectec" id="selectec" data-reveal>
         <div>
-          <span className="section-index">03 / SELECTEC NORDIC</span>
+          <span className="section-index">04 / SELECTEC NORDIC</span>
           <h2>{ui.local}</h2>
           <p>{ui.localLead}</p>
         </div>
