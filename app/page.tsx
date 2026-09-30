@@ -425,7 +425,8 @@ const teamMembers = [
     country: 'DENMARK',
     email: 'poul-erik.dose@selectec.com',
     image: '/employees/poul-erik1.png',
-    hover: '/employees/poul-erik2.png',
+    expertise: 'Strategi, försäljning & partnerskap',
+    enExpertise: 'Strategy, sales & partnerships',
   },
   {
     slug: 'lembit',
@@ -435,7 +436,8 @@ const teamMembers = [
     country: 'SWEDEN',
     email: 'lembit.karlson@selectec.com',
     image: '/employees/lembit1.png',
-    hover: '/employees/lembit2.png',
+    expertise: 'Ledning & verksamhetsutveckling',
+    enExpertise: 'Leadership & business development',
   },
   {
     slug: 'anette',
@@ -445,7 +447,8 @@ const teamMembers = [
     country: 'SWEDEN',
     email: 'anette.andersen@selectec.com',
     image: '/employees/anette1.png',
-    hover: '/employees/anette2.png',
+    expertise: 'Ekonomi & verksamhetsstyrning',
+    enExpertise: 'Finance & operations',
   },
   {
     slug: 'stephan',
@@ -455,7 +458,8 @@ const teamMembers = [
     country: 'SWEDEN',
     email: 'stephan.norrstrom@selectec.com',
     image: '/employees/stephan1.png',
-    hover: '/employees/stephan2.png',
+    expertise: 'Applikationer & produktutveckling',
+    enExpertise: 'Applications & product development',
   },
   {
     slug: 'jens',
@@ -465,7 +469,8 @@ const teamMembers = [
     country: 'SWEDEN',
     email: 'jens.djerf@selectec.com',
     image: '/employees/jens1.png',
-    hover: '/employees/jens2.png',
+    expertise: 'Kanalförsäljning & PaperCut',
+    enExpertise: 'Channel sales & PaperCut',
   },
   {
     slug: 'sanne',
@@ -475,7 +480,8 @@ const teamMembers = [
     country: 'DENMARK',
     email: 'sanne.nyegaard@selectec.com',
     image: '/employees/sanne1.png',
-    hover: '/employees/sanne2.png',
+    expertise: 'Projektledning & kundutveckling',
+    enExpertise: 'Project management & customer growth',
   },
   {
     slug: 'patrik',
@@ -485,7 +491,8 @@ const teamMembers = [
     country: 'SWEDEN',
     email: 'patrik.langen@selectec.com',
     image: '/employees/patrik1.png',
-    hover: '/employees/patrik2.png',
+    expertise: 'Implementation & dokumentflöden',
+    enExpertise: 'Implementation & document workflows',
   },
   {
     slug: 'tobias',
@@ -497,7 +504,8 @@ const teamMembers = [
     phone: '+46 010 147 71 07',
     phoneHref: '+460101477107',
     image: '/employees/tobias.png',
-    hover: '/employees/tobias-laugh.png',
+    expertise: 'DPP, IoT & presales',
+    enExpertise: 'DPP, IoT & presales',
   },
   {
     slug: 'sture',
@@ -507,7 +515,8 @@ const teamMembers = [
     country: 'SWEDEN',
     email: 'sture.himledahl@selectec.com',
     image: '/employees/sture1.png',
-    hover: '/employees/sture2.png',
+    expertise: 'Kanalutveckling & partnerskap',
+    enExpertise: 'Channel development & partnerships',
   },
 ];
 
@@ -961,19 +970,29 @@ export default function Home() {
         </div>
       </section>
       <section className="team-section" id="experter">
-        <div className="team-intro" data-reveal>
-          <div>
+        <div className="team-atmosphere" data-reveal>
+          <div className="team-intro">
             <span className="section-index">
               03 / PEOPLE BEHIND THE SOLUTIONS
             </span>
             <h2>
-              {en ? 'Expertise with a face.' : 'Kompetens med ett ansikte.'}
+              {en
+                ? 'People who understand both the solution and your business.'
+                : 'Människor som förstår både lösningen och verksamheten.'}
             </h2>
+            <p>
+              {en
+                ? 'Technology does not solve everything. People do — when they listen, understand the context and stay until it works.'
+                : 'Teknik löser inte allt. Det gör människor som lyssnar, förstår sammanhanget och stannar tills det fungerar.'}
+            </p>
           </div>
+        </div>
+        <div className="team-roster-heading" data-reveal>
+          <span>{en ? 'THE TEAM' : 'TEAMET'}</span>
           <p>
             {en
-              ? 'Meet the people who turn platforms into working solutions — through consulting, installation, training and support.'
-              : 'Möt människorna som gör plattformarna till fungerande lösningar — genom konsultation, installation, utbildning och support.'}
+              ? 'Consulting, installation, training and support across the Nordics.'
+              : 'Konsultation, installation, utbildning och support i hela Norden.'}
           </p>
         </div>
         <div className="team-grid" data-reveal>
@@ -992,12 +1011,6 @@ export default function Home() {
                   src={person.image}
                   alt={person.name}
                 />
-                <img
-                  className="portrait-hover"
-                  src={person.hover}
-                  alt=""
-                  aria-hidden="true"
-                />
                 <i />
               </span>
               <span className="person-meta">
@@ -1006,6 +1019,7 @@ export default function Home() {
                 </small>
                 <strong>{person.name}</strong>
                 <span>{en ? person.enTitle : person.title}</span>
+                <em>{en ? person.enExpertise : person.expertise}</em>
                 <b>{en ? 'View profile' : 'Se profil'} ↗</b>
               </span>
             </button>
@@ -1171,12 +1185,6 @@ export default function Home() {
                 src={expert.image}
                 alt={expert.name}
               />
-              <img
-                className="portrait-hover"
-                src={expert.hover}
-                alt=""
-                aria-hidden="true"
-              />
               <i />
             </div>
             <div className="person-modal-copy">
@@ -1185,6 +1193,9 @@ export default function Home() {
               </span>
               <h2>{expert.name}</h2>
               <p>{en ? expert.enTitle : expert.title}</p>
+              <div className="person-modal-expertise">
+                {en ? expert.enExpertise : expert.expertise}
+              </div>
               <blockquote>
                 “
                 {en

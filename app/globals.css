@@ -1966,25 +1966,79 @@ html[data-theme='light'] .mobile-product-links a + a {
 
 /* Nordic experts */
 .team-section {
-  padding: 105px 6vw 115px;
+  padding: 0 6vw 115px;
   background: var(--canvas);
   color: var(--text);
 }
+.team-atmosphere {
+  min-height: min(680px, 68vw);
+  margin: 0 -6vw 88px;
+  padding: 7vw;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: #fff;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(6, 12, 8, 0.94) 0%,
+      rgba(6, 12, 8, 0.68) 42%,
+      rgba(6, 12, 8, 0.08) 78%
+    ),
+    linear-gradient(0deg, rgba(6, 12, 8, 0.7) 0%, transparent 55%),
+    url('/team-background.png');
+  background-size: cover;
+  background-position: center;
+}
+.team-atmosphere:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
 .team-intro {
-  display: grid;
-  grid-template-columns: 1.15fr 0.55fr;
-  gap: 10vw;
-  align-items: end;
-  margin-bottom: 52px;
+  position: relative;
+  z-index: 1;
+  max-width: 840px;
 }
 .team-intro h2 {
-  max-width: 720px;
+  margin: 23px 0 24px;
+  max-width: 840px;
+  font-size: clamp(45px, 5.6vw, 82px);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
 }
-.team-intro > p {
+.team-intro p {
+  max-width: 650px;
+  margin: 0;
+  color: #c5cec8;
+  font-size: 18px;
+  line-height: 1.7;
+}
+.team-roster-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+  margin-bottom: 28px;
+}
+.team-roster-heading span {
+  color: var(--acid);
+  font:
+    10px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 0.16em;
+}
+.team-roster-heading p {
+  max-width: 520px;
   margin: 0;
   color: var(--soft);
-  font-size: 16px;
-  line-height: 1.7;
+  text-align: right;
+  font-size: 15px;
+  line-height: 1.6;
 }
 .expert-card {
   display: grid;
@@ -2875,17 +2929,12 @@ html[data-theme='light'] .mobile-product-links a + a {
   height: 100%;
   object-fit: cover;
   object-position: center 28%;
-  filter: grayscale(1) contrast(1.03);
+  filter: grayscale(1) contrast(1.04) brightness(0.9);
   transition:
     opacity 0.95s var(--motion),
     transform 1.2s var(--motion),
     filter 0.8s var(--motion);
   will-change: opacity, transform;
-}
-.person-photo .portrait-hover,
-.person-modal-photo .portrait-hover {
-  opacity: 0;
-  transform: scale(1.04);
 }
 .person-photo i,
 .person-modal-photo i {
@@ -2924,6 +2973,17 @@ html[data-theme='light'] .mobile-product-links a + a {
   line-height: 1.45;
   color: var(--soft);
 }
+.person-meta em {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--theme-line);
+  color: var(--acid);
+  font:
+    normal 10px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 0.07em;
+  line-height: 1.5;
+}
 .person-meta b {
   margin-top: auto;
   padding-top: 22px;
@@ -2950,14 +3010,10 @@ html[data-theme='light'] .mobile-product-links a + a {
   outline-offset: -2px;
 }
 .person-card:hover .portrait-primary,
-.person-modal:hover .portrait-primary {
-  opacity: 0;
-  transform: scale(1.03);
-}
-.person-card:hover .portrait-hover,
-.person-modal:hover .portrait-hover {
+.person-card:focus-visible .portrait-primary {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1.045);
+  filter: grayscale(0.18) contrast(1.02) brightness(1);
 }
 .person-modal-overlay {
   position: fixed;
@@ -3019,6 +3075,17 @@ html[data-theme='light'] .mobile-product-links a + a {
   color: var(--soft);
   margin: 0;
 }
+.person-modal-expertise {
+  width: fit-content;
+  margin-top: 22px;
+  padding: 10px 13px;
+  border: 1px solid rgba(var(--acid-rgb), 0.35);
+  color: var(--acid);
+  font:
+    10px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 0.08em;
+}
 .person-modal-copy blockquote {
   margin: 48px 0;
   padding-left: 20px;
@@ -3061,6 +3128,36 @@ html[data-theme='light'] .mobile-product-links a + a {
   }
 }
 @media (max-width: 680px) {
+  .team-section {
+    padding: 0 22px 86px;
+  }
+  .team-atmosphere {
+    min-height: 650px;
+    margin: 0 -22px 64px;
+    padding: 56px 22px;
+    background-position: 61% center;
+    background-image:
+      linear-gradient(
+        0deg,
+        rgba(6, 12, 8, 0.94) 0%,
+        rgba(6, 12, 8, 0.52) 70%,
+        rgba(6, 12, 8, 0.12) 100%
+      ),
+      url('/team-background.png');
+  }
+  .team-intro h2 {
+    font-size: 46px;
+  }
+  .team-intro p {
+    font-size: 16px;
+  }
+  .team-roster-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .team-roster-heading p {
+    text-align: left;
+  }
   .team-grid {
     grid-template-columns: 1fr;
   }
