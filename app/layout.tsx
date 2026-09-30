@@ -14,7 +14,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Selectec Nordic | Dokumentflöden med nordisk spetskompetens',
-  description: 'Marknadsledande lösningar, Nordens vassaste konsulter och support nära dig.',
+  description:
+    'Marknadsledande lösningar, Nordens vassaste konsulter och support nära dig.',
+  icons: {
+    icon: [{ url: '/selectec-favicon.png', type: 'image/png' }],
+    shortcut: '/selectec-favicon.png',
+    apple: '/selectec-favicon.png',
+  },
 };
 
 export default function RootLayout({
