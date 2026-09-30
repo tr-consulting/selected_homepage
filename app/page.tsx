@@ -680,14 +680,17 @@ export default function Home() {
         </a>
         <nav aria-label="Huvudmeny">
           <a href="#produkter">{t.nav[0]}</a>
+          <a className="product-nav-link" href="/papercut">
+            PaperCut
+          </a>
+          <a className="product-nav-link" href="/dpp">
+            DPP
+          </a>
+          <a className="product-nav-link" href="/foldr">
+            Foldr
+          </a>
           <a href="#expertis">{t.nav[1]}</a>
           <a href="#support">{t.nav[2]}</a>
-          <a className="dpp-nav" href="/dpp">
-            DPP{' '}
-            <small>
-              {en ? 'Digital product passport' : 'Digitalt produktpass'}
-            </small>
-          </a>
           <a href="#om">{t.nav[3]}</a>
         </nav>
         <div className="header-actions">
@@ -747,7 +750,17 @@ export default function Home() {
         </div>
         {mobile && (
           <div className="mobile-nav">
-            <a href="/dpp">DPP · Digitalt produktpass</a>
+            <div className="mobile-product-links">
+              <a href="/papercut" onClick={() => setMobile(false)}>
+                PaperCut
+              </a>
+              <a href="/dpp" onClick={() => setMobile(false)}>
+                DPP
+              </a>
+              <a href="/foldr" onClick={() => setMobile(false)}>
+                Foldr
+              </a>
+            </div>
             {t.nav.map((n, i) => (
               <a
                 key={n}
