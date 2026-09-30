@@ -427,6 +427,7 @@ const teamMembers = [
     image: '/employees/poul-erik1.png',
     expertise: 'Strategi, försäljning & partnerskap',
     enExpertise: 'Strategy, sales & partnerships',
+    layout: 'standard',
   },
   {
     slug: 'lembit',
@@ -438,6 +439,7 @@ const teamMembers = [
     image: '/employees/lembit1.png',
     expertise: 'Ledning & verksamhetsutveckling',
     enExpertise: 'Leadership & business development',
+    layout: 'tall',
   },
   {
     slug: 'anette',
@@ -449,6 +451,7 @@ const teamMembers = [
     image: '/employees/anette1.png',
     expertise: 'Ekonomi & verksamhetsstyrning',
     enExpertise: 'Finance & operations',
+    layout: 'offset',
   },
   {
     slug: 'stephan',
@@ -460,6 +463,7 @@ const teamMembers = [
     image: '/employees/stephan1.png',
     expertise: 'Applikationer & produktutveckling',
     enExpertise: 'Applications & product development',
+    layout: 'offset',
   },
   {
     slug: 'jens',
@@ -471,6 +475,7 @@ const teamMembers = [
     image: '/employees/jens1.png',
     expertise: 'Kanalförsäljning & PaperCut',
     enExpertise: 'Channel sales & PaperCut',
+    layout: 'standard',
   },
   {
     slug: 'sanne',
@@ -482,6 +487,7 @@ const teamMembers = [
     image: '/employees/sanne1.png',
     expertise: 'Projektledning & kundutveckling',
     enExpertise: 'Project management & customer growth',
+    layout: 'tall',
   },
   {
     slug: 'patrik',
@@ -493,6 +499,7 @@ const teamMembers = [
     image: '/employees/patrik1.png',
     expertise: 'Implementation & dokumentflöden',
     enExpertise: 'Implementation & document workflows',
+    layout: 'standard',
   },
   {
     slug: 'tobias',
@@ -506,6 +513,11 @@ const teamMembers = [
     image: '/employees/tobias.png',
     expertise: 'DPP, IoT & presales',
     enExpertise: 'DPP, IoT & presales',
+    tagline:
+      'Får systemen att prata med varandra – och det komplicerade att kännas enklare.',
+    enTagline:
+      'Making systems talk to each other – and complicated things feel simpler.',
+    layout: 'featured',
   },
   {
     slug: 'sture',
@@ -517,6 +529,7 @@ const teamMembers = [
     image: '/employees/sture1.png',
     expertise: 'Kanalutveckling & partnerskap',
     enExpertise: 'Channel development & partnerships',
+    layout: 'offset',
   },
 ];
 
@@ -987,20 +1000,33 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <div className="team-roster-heading" data-reveal>
-          <span>{en ? 'THE TEAM' : 'TEAMET'}</span>
+        <div className="team-editorial-heading" data-reveal>
+          <div>
+            <span>{en ? 'THE TEAM' : 'TEAMET'}</span>
+            <h2>
+              The people
+              <br />
+              behind Selectec.
+            </h2>
+            <p>
+              {en
+                ? 'Consulting, installation, training and support across the Nordics.'
+                : 'Konsultation, installation, utbildning och support i hela Norden.'}
+            </p>
+          </div>
           <p>
             {en
-              ? 'Consulting, installation, training and support across the Nordics.'
-              : 'Konsultation, installation, utbildning och support i hela Norden.'}
+              ? 'We are specialists, problem-solvers and technology enthusiasts who make everyday work easier — for our customers, partners and each other.'
+              : 'Vi är ett team av specialister, problemlösare och tekniknördar som brinner för att göra vardagen enklare – för våra kunder, partner och varandra.'}
           </p>
         </div>
         <div className="team-grid" data-reveal>
           {teamMembers.map((person, index) => (
             <button
-              className="person-card"
+              className={`person-card layout-${person.layout}`}
               key={person.slug}
               onClick={() => setSelectedExpert(person.slug)}
+              aria-label={`${en ? 'View profile for' : 'Visa profil för'} ${person.name}`}
               style={
                 { '--delay': `${(index % 3) * 70}ms` } as React.CSSProperties
               }
@@ -1019,8 +1045,11 @@ export default function Home() {
                 </small>
                 <strong>{person.name}</strong>
                 <span>{en ? person.enTitle : person.title}</span>
+                {'tagline' in person && person.tagline && (
+                  <p>{en ? person.enTagline : person.tagline}</p>
+                )}
                 <em>{en ? person.enExpertise : person.expertise}</em>
-                <b>{en ? 'View profile' : 'Se profil'} ↗</b>
+                <b>{en ? 'Open profile' : 'Öppna profil'} ↗</b>
               </span>
             </button>
           ))}
